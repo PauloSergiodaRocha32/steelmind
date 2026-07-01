@@ -16,6 +16,7 @@ export type AgentId =
 export interface AgentStep {
   agent: AgentId;
   action: string;
+  departmentPaths?: string[];
   knowledgePaths?: string[];
   providerPaths?: string[];
   outputPaths?: string[];

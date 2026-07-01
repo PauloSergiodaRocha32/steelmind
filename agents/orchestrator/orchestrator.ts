@@ -16,7 +16,8 @@ const INTENT_PATTERNS: Array<{
       },
       {
         agent: "engineering",
-        action: "Ler spec e implementar cálculo",
+        action: "Ler spec, consultar Departamento Gest.io e implementar cálculo",
+        departmentPaths: ["departments/gestio"],
         knowledgePaths: [
           "knowledge/engineering/fachada-acm.md",
           "knowledge/materials/acm-panels.md",
@@ -26,17 +27,26 @@ const INTENT_PATTERNS: Array<{
       },
       {
         agent: "materials",
-        action: "Validar produtos ACM no catálogo",
+        action: "Perguntar ao Materials Team sobre ACM no catálogo",
+        departmentPaths: ["departments/gestio#materials"],
         providerPaths: ["providers/materials/"],
       },
       {
         agent: "gestio",
-        action: "Verificar projetos e vínculos Gest.io",
+        action: "Perguntar ao CRM Team sobre projetos e vínculos Gest.io",
+        departmentPaths: ["departments/gestio#crm"],
         providerPaths: ["providers/gestio/"],
       },
       {
         agent: "budget",
-        action: "Estimar impacto de custo (quando spec de budget existir)",
+        action:
+          "Consultar Workforce, Purchasing, Production e Finance antes de estimar custo",
+        departmentPaths: [
+          "departments/gestio#workforce",
+          "departments/gestio#purchasing",
+          "departments/gestio#production",
+          "departments/gestio#finance",
+        ],
         knowledgePaths: ["knowledge/budget/"],
       },
       {
@@ -97,6 +107,7 @@ export function executePlan(plan: OrchestratorPlan): OrchestratorResult {
     notes.push(
       `[${step.agent}] ${step.action}`,
       `  charter: ${agent.charterPath}`,
+      `  departments: ${step.departmentPaths?.join(", ") || "—"}`,
       `  knowledge: ${resources.knowledge.join(", ") || "—"}`,
       `  providers: ${resources.providers.join(", ") || "—"}`,
     );

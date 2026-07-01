@@ -147,6 +147,30 @@ User intent: "Create ACM facade calculation"
 3. Agents do not bypass provider or knowledge boundaries
 4. Code changes flow through Git — agents propose PRs; humans approve
 
+### 3.4 Department Platform → `departments/`
+
+Departments organize agents like a company. Agents execute, but departments own accountability for answers.
+
+```
+departments/
+└── gestio/
+    ├── workforce    # employees, salaries, benefits, hourly cost
+    ├── materials    # materials, inventory, weight, category
+    ├── purchasing   # suppliers, purchase history, lead time
+    ├── production   # machines, sectors, capacity, standard time
+    ├── finance      # overhead, markup, taxes, fixed costs
+    └── crm          # customers, jobs, contracts, history
+```
+
+**Department contract:**
+
+1. Agents ask departments for business/ERP data questions.
+2. Departments route questions to the responsible team.
+3. Answers include confidence, provider paths, knowledge paths, missing information, and next actions.
+4. Missing information becomes an audit backlog instead of an invented value.
+
+See [DEPARTMENTS.md](./DEPARTMENTS.md).
+
 ---
 
 ## 4. Relationship to Runtime
