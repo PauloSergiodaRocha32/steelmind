@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createGestioClient } from "@/services/gestio/client";
+import { createGestioClient } from "@/providers/gestio/client";
 import { getStore, savePurchaseRequisition } from "@/lib/persistence/store";
 import { loadGestioCatalog } from "@/modules/warehouse/application/load-catalog";
 import { buildStockOverview } from "@/modules/warehouse/application/queries/stock-overview";

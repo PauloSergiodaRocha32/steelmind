@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { createGestioClient } from "@/services/gestio/client";
+import { createGestioClient } from "@/providers/gestio/client";
+import { fetchMovements } from "@/providers/inventory";
 import { logMovement } from "@/lib/persistence/store";
 import type { CreateEntradaPayload, CreateSaidaPayload } from "@/types/gestio-extended";
 import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
@@ -9,12 +10,13 @@ export async function GET() {
   if (isAuthError(auth)) return auth;
 
   try {
-    const client = createGestioClient();
-    await client.authenticate();
-    const [entradas, saidas] = await Promise.all([
-      client.getEntradas(),
-      client.getSaidas(),
-    ]);
+    const movements = await fetchMovements();
+    const entradas = movements
+      .filter((m) => m.kind === "entrada")
+      .map((m) => m.raw);
+    const saidas = movements
+      .filter((m) => m.kind === "saida")
+      .map((m) => m.raw);
 
     return NextResponse.json({
       data: {

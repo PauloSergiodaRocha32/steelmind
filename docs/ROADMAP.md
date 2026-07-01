@@ -72,10 +72,10 @@ Full specification: [SIP.md](./SIP.md)
 
 | Sub-phase | Name | Status | Goal |
 |-----------|------|--------|------|
-| SIP-0 | Governance | **Current** | Scaffold `knowledge/`, `providers/`, `agents/`; contracts; ADR |
-| SIP-1 | Data Platform | Planned | Migrate `services/gestio/` → `providers/gestio/`; inventory + materials |
-| SIP-2 | Knowledge Platform | Planned | Seed knowledge tree; versioned calculation specs |
-| SIP-3 | Agent Platform | Planned | Agent charters; Orchestrator MVP |
+| SIP-0 | Governance | **Complete** | Scaffold `knowledge/`, `providers/`, `agents/`; contracts; ADR |
+| SIP-1 | Data Platform | **Complete** | `providers/gestio/`; `inventory/`; `materials/` |
+| SIP-2 | Knowledge Platform | **Complete** | Seed: fachada ACM, ACM panels, product code mapping |
+| SIP-3 | Agent Platform | **In progress** | Orchestrator MVP, engineering calculation, API routes |
 | SIP-4 | Builder Loop | Planned | Intent → PR golden path with human review |
 
 ### SIP-0 Deliverables
@@ -94,9 +94,9 @@ Full specification: [SIP.md](./SIP.md)
 - [x] Four pillars documented
 - [x] Top-level folders exist with README contracts
 - [x] Migration path from `services/gestio/` documented
-- [ ] First provider cutover (`providers/gestio/`) — SIP-1
-- [ ] First knowledge articles (engineering + constitution) — SIP-2
-- [ ] First agent charter — SIP-3
+- [x] First provider cutover (`providers/gestio/`) — SIP-1
+- [x] First knowledge articles (engineering + gestio mapping) — SIP-2
+- [x] First agent charters + Orchestrator MVP — SIP-3
 
 ---
 

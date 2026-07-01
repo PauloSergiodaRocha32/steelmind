@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { applyGestioClassification } from "@/services/gestio/sync";
+import { applyGestioClassification } from "@/providers/gestio/sync";
 import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
 
 export async function POST(request: Request) {

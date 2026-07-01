@@ -1,4 +1,4 @@
-import { classifyProduct } from "@/services/gestio/taxonomy";
+import { classifyProduct } from "@/providers/gestio/taxonomy";
 import type {
   GestioProduto,
   GestioSaldoEstoque,

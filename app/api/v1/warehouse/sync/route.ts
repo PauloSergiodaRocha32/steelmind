@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { syncGestioData } from "@/services/gestio/sync";
+import { syncGestioData } from "@/providers/gestio/sync";
 import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { requirePermission, isAuthError } from "@/lib/auth/api-guard";

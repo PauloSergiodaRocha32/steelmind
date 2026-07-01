@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createGestioClient } from "@/services/gestio/client";
+import { createGestioClient } from "@/providers/gestio/client";
 import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
 
 export async function GET() {

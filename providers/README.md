@@ -13,11 +13,11 @@ Typed, read-only adapters to company systems. Providers **deliver data** — the
 
 | Path | Gest.io / source domain | Status |
 |------|-------------------------|--------|
-| `gestio/` | ERP core — products, taxonomy, branches | Planned (migrate from `services/gestio/`) |
+| `gestio/` | ERP core — products, taxonomy, branches | **Done** (migrated from `services/gestio/`) |
 | `employees/` | Workforce, roles, labor rates | Scaffold |
-| `materials/` | Material catalog views | Scaffold |
+| `materials/` | Material catalog views | **Done** |
 | `suppliers/` | Supplier master and history | Scaffold |
-| `inventory/` | Stock movements, balances | Scaffold |
+| `inventory/` | Stock movements, balances | **Done** |
 | `production/` | Shop floor, orders, PCP | Scaffold |
 | `finance/` | Cost centers, financial context | Scaffold |
 | `crm/` | Customers, opportunities | Scaffold |
