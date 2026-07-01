@@ -44,11 +44,20 @@ async function main() {
     // Login
     console.log("→ Login…");
     await page.goto(`${BASE}/login`, { waitUntil: "networkidle" });
-    await page.getByPlaceholder("E-mail").fill(EMAIL);
-    await page.getByPlaceholder("Senha").fill(PASSWORD);
-    await page.getByRole("button", { name: /Entrar/i }).click();
-    await page.waitForURL((url) => !url.pathname.includes("/login"), { timeout: 15000 });
-    console.log("  ✓ Autenticado\n");
+    const emailInput = page.getByPlaceholder("E-mail");
+    const isLoginVisible = await emailInput
+      .isVisible({ timeout: 4000 })
+      .catch(() => false);
+
+    if (isLoginVisible) {
+      await emailInput.fill(EMAIL);
+      await page.getByPlaceholder("Senha").fill(PASSWORD);
+      await page.getByRole("button", { name: /Entrar/i }).click();
+      await page.waitForURL((url) => !url.pathname.includes("/login"), { timeout: 15000 });
+      console.log("  ✓ Autenticado\n");
+    } else {
+      console.log("  ✓ Sessão já autenticada\n");
+    }
 
     // Execute demo project
     console.log("→ Executando projeto demo em /projeto…");
@@ -76,7 +85,11 @@ async function main() {
       const chatInput = page.getByPlaceholder(/Pergunte sobre Gestio/i);
       if (await chatInput.isVisible()) {
         await chatInput.fill("status do projeto demo");
-        await page.getByRole("button").filter({ has: page.locator("svg") }).last().click();
+        await page
+          .locator("button")
+          .filter({ has: page.locator("svg.lucide-send-horizontal, svg.lucide-send") })
+          .last()
+          .click();
         await page.waitForTimeout(2000);
         console.log("  ✓ Steel AI respondeu");
       }
