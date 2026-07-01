@@ -1,53 +1,46 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Bot,
-  Brain,
-  Cloud,
-  FileSearch,
-  MessageSquare,
-  Sparkles,
-  Zap,
-} from "lucide-react";
+import { Bot, Brain, Cloud, FileSearch, MessageSquare, Sparkles, Zap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AgentDashboard } from "@/components/ai/agent-dashboard";
+import { MissionControlDashboard } from "@/components/ai/mission-control-dashboard";
 
 const CAPABILITIES = [
   {
     icon: Zap,
-    title: "Orçamento Copilot",
-    desc: "Upload de PDF/DWG + memorial técnico + precificação Gestio em segundos",
+    title: "Orcamento Copilot",
+    desc: "Upload de PDF/DWG + memorial tecnico + precificacao Gestio em segundos",
     href: "/budget",
     badge: "Ativo",
   },
   {
     icon: MessageSquare,
     title: "Steel AI permanente",
-    desc: "Copilot flutuante em todas as telas — Gestio, RBAC, pipeline e agentes cloud",
+    desc: "Copilot flutuante em todas as telas com contexto operacional",
     href: "#steel-ai",
     badge: "Novo",
   },
   {
     icon: Cloud,
     title: "Multi-agentes cloud",
-    desc: "6 agentes auditam saúde, RBAC, Gestio, módulos, dados e segurança",
+    desc: "Agentes auditam saude, RBAC, Gestio, modulos, dados e seguranca",
     href: "#agents",
     badge: "Cloud",
   },
   {
     icon: FileSearch,
-    title: "Classificação Gestio",
-    desc: "2.276 produtos com taxonomia material + forma (INOX 304, cantoneira…)",
+    title: "Classificacao Gestio",
+    desc: "Produtos classificados por material e forma para acelerar busca",
     href: "/warehouse",
     badge: "Sync",
   },
   {
     icon: Brain,
     title: "OpenAI (opcional)",
-    desc: "Respostas enriquecidas quando OPENAI_API_KEY está configurada",
+    desc: "Respostas enriquecidas quando OPENAI_API_KEY estiver configurada",
     href: "/budget",
     badge: "Plus",
   },
@@ -61,7 +54,7 @@ export function AIHub() {
           <Sparkles className="mr-1 h-3 w-3" />
           SteelMind AI
         </Badge>
-        <h1 className="text-2xl font-bold">Centro de inteligência artificial</h1>
+        <h1 className="text-2xl font-bold">Centro de inteligencia artificial</h1>
         <p className="text-sm text-muted-foreground">
           IA permanente, multi-agentes cloud e copilot operacional para a Inglesa Metais
         </p>
@@ -94,15 +87,14 @@ export function AIHub() {
           <div className="flex items-start gap-3">
             <Bot className="mt-1 h-8 w-8 text-primary" />
             <div>
-              <p className="font-semibold">Steel AI · Copilot permanente</p>
+              <p className="font-semibold">Steel AI - Copilot permanente</p>
               <p className="text-sm text-muted-foreground">
-                Botão flutuante no canto inferior direito em todas as páginas.
-                Contexto da tela atual, histórico persistente e scan cloud integrado.
+                Botao flutuante no canto inferior direito em todas as paginas com contexto de tela.
               </p>
             </div>
           </div>
           <p className="text-xs text-muted-foreground">
-            Clique no ícone <Bot className="inline h-4 w-4" /> no canto da tela
+            Clique no icone <Bot className="inline h-4 w-4" /> no canto da tela
           </p>
         </CardContent>
       </Card>
@@ -112,12 +104,17 @@ export function AIHub() {
         <AgentDashboard />
       </div>
 
+      <div id="mission-control">
+        <h2 className="mb-4 text-lg font-semibold">Mission Control</h2>
+        <MissionControlDashboard />
+      </div>
+
       <Card className="border-border/50">
         <CardContent className="flex flex-col items-start gap-4 py-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="font-semibold">SteelMind Copilot · BLACK EDITION</p>
+            <p className="font-semibold">SteelMind Copilot - BLACK EDITION</p>
             <p className="text-sm text-muted-foreground">
-              Pipeline de 6 etapas: ingestão → extração → BOM → Gestio → memorial → revisão
+              Pipeline de 6 etapas: ingestao, extracao, BOM, Gestio, memorial e revisao
             </p>
           </div>
           <Link href="/budget">

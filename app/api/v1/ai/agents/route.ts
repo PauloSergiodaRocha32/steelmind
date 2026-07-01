@@ -9,6 +9,7 @@ import {
   getAgentReportHistory,
   appendMessage,
 } from "@/lib/persistence/ai-store";
+import { executeCouncilRequest, getMissionControlSnapshot } from "@/lib/ai/steelmind-os/runtime";
 import type { AgentId } from "@/types/ai-agents";
 
 function canRunCloudAgents(role: string): boolean {
@@ -19,12 +20,13 @@ export async function GET() {
   const auth = await requireAuth();
   if (isAuthError(auth)) return auth;
 
-  const [latest, history] = await Promise.all([
+  const [latest, history, missionControl] = await Promise.all([
     getLatestAgentReport(),
     getAgentReportHistory(10),
+    getMissionControlSnapshot(),
   ]);
 
-  return NextResponse.json({ data: { latest, history } });
+  return NextResponse.json({ data: { latest, history, missionControl } });
 }
 
 export async function POST(request: Request) {
@@ -58,19 +60,34 @@ export async function POST(request: Request) {
     const report = await runOrchestrator(user.id);
     await saveAgentReport(report);
 
+    const protocolResponse = await executeCouncilRequest({
+      requestedBy: user.id,
+      capability: "platform.audit",
+      prompt: "Run integrated cloud agents health check",
+      target: "qa",
+      execution: {
+        sourceRoute: "/api/v1/ai/agents",
+        triggeredBy: user.role,
+        environment: process.env.NODE_ENV === "production" ? "production" : "local",
+      },
+      context: {
+        references: [{ kind: "constitution", ref: "CONSTITUTION_V2.md#4" }],
+      },
+    });
+
     const summary = formatAgentReportSummary(report);
 
     if (body.notifyUser !== false) {
       await appendMessage(user.id, {
         id: crypto.randomUUID(),
         role: "agent",
-        content: summary,
+        content: `${summary}\n\nAI Council: ${protocolResponse.summary}`,
         timestamp: new Date().toISOString(),
         agentId: "orchestrator",
       });
     }
 
-    return NextResponse.json({ data: { report, summary } });
+    return NextResponse.json({ data: { report, summary, protocolResponse } });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Erro nos agentes";
     return NextResponse.json({ error: { message } }, { status: 500 });

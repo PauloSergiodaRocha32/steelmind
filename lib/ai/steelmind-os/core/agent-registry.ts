@@ -8,6 +8,7 @@ import type {
 export interface AgentExecutionResult {
   status: DecisionOutcome;
   summary: string;
+  actions?: AgentRequest["actions"];
   rationale?: string;
   confidence?: number;
   payload?: Record<string, unknown>;
@@ -47,10 +48,6 @@ export interface AgentRegistry {
   recordExecution(agentId: CouncilAgentId, metric: AgentExecutionMetric): void;
   listAgents(): CouncilRuntimeAgent[];
   listSnapshots(): AgentRuntimeSnapshot[];
-}
-
-function nowIso(): string {
-  return new Date().toISOString();
 }
 
 interface AgentMetricState {
@@ -98,7 +95,7 @@ export class InMemoryAgentRegistry implements AgentRegistry {
 
   recordExecution(agentId: CouncilAgentId, metric: AgentExecutionMetric): void {
     const state = this.metrics.get(agentId) ?? createEmptyState();
-    state.lastSeenAt = nowIso();
+    state.lastSeenAt = metric.at;
     state.lastExecutionMs = metric.durationMs;
     state.executions += 1;
     state.lastStatus = metric.status;
