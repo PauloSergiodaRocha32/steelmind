@@ -7,6 +7,7 @@ export const NAV_GROUPS = [
     label: "Workspace",
     items: [
       { title: "Dashboard", href: "/", icon: "LayoutDashboard" as const },
+      { title: "Projeto Demo", href: "/projeto", icon: "PlayCircle" as const },
       { title: "Oportunidades", href: "/opportunities", icon: "Target" as const },
       { title: "Engenharia", href: "/engineering", icon: "Wrench" as const },
       { title: "Orçamentos", href: "/budget", icon: "PieChart" as const },
@@ -38,7 +39,8 @@ export type NavIcon =
   | "Warehouse"
   | "BookOpen"
   | "Sparkles"
-  | "Settings";
+  | "Settings"
+  | "PlayCircle";
 
 export type NavItem = {
   title: string;

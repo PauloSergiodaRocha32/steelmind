@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "SteelMind: Abrir no Browser",
+      "type": "shell",
+      "command": "echo 'Abra http://localhost:3000/login — admin@inglesametais.com / admin123'",
+      "presentation": { "reveal": "always", "panel": "new" },
+      "problemMatcher": []
+    },
+    {
+      "label": "SteelMind: Simple Browser — Login",
+      "type": "shell",
+      "command": "echo 'Use Command Palette → Simple Browser: Show → http://localhost:3000/login'",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "SteelMind: Simple Browser — Projeto Demo",
+      "type": "shell",
+      "command": "echo 'http://localhost:3000/projeto — clique Executar projeto completo'",
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "SteelMind: Demo Browser Walkthrough",
+      "type": "shell",
+      "command": "npm run demo:browser",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -120,6 +120,12 @@ export function PlatformDashboard() {
                 Pipeline
               </Button>
             </Link>
+            <Link href="/projeto">
+              <Button size="sm" variant="outline" className="gap-2">
+                <Factory className="h-4 w-4" />
+                Projeto Demo
+              </Button>
+            </Link>
           </div>
         </div>
         <p className="relative z-10 mt-3 text-xs text-muted-foreground">

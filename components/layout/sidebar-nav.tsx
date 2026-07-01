@@ -8,6 +8,7 @@ import {
   Factory,
   LayoutDashboard,
   PieChart,
+  PlayCircle,
   Settings,
   ShoppingCart,
   Sparkles,
@@ -42,6 +43,7 @@ const iconMap: Record<NavIcon, LucideIcon> = {
   BookOpen,
   Sparkles,
   Settings,
+  PlayCircle,
 };
 
 interface NavLinkProps {
