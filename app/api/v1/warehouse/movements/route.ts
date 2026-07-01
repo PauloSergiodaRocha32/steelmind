@@ -1,8 +1,56 @@
 import { NextResponse } from "next/server";
 import { createGestioClient } from "@/services/gestio/client";
-import { logMovement } from "@/lib/persistence/store";
-import type { CreateEntradaPayload, CreateSaidaPayload } from "@/types/gestio-extended";
+import { getStore, logMovement } from "@/lib/persistence/store";
+import type {
+  CreateEntradaPayload,
+  CreateSaidaPayload,
+  GestioMovimentacaoEntrada,
+  GestioMovimentacaoSaida,
+} from "@/types/gestio-extended";
 import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
+
+function mapLocalMovementsFallback(
+  movements: Awaited<ReturnType<typeof getStore>>["movementLogs"],
+): {
+  entradas: GestioMovimentacaoEntrada[];
+  saidas: GestioMovimentacaoSaida[];
+} {
+  const entradas = movements
+    .filter((item) => item.tipo === "entrada")
+    .slice(0, 50)
+    .map((item, index) => ({
+      numeroDaEntrada: item.gestioNumero ?? index + 1,
+      seq: index + 1,
+      codigoDaFilial: item.codigoDaFilial,
+      descricaoDaFilial: `Filial ${item.codigoDaFilial}`,
+      codigoDoAlmoxarifado: item.codigoDaFilial,
+      idProd: item.idProd,
+      codigoInterno: item.codigoInterno,
+      descricaoDoProduto: item.observacao ?? "Movimentacao local",
+      quantidade: item.quantidade,
+      dataDaEntrada: item.createdAt,
+      codigoDoProjeto: item.codigoDoProjeto,
+      observacao: item.observacao,
+    }));
+
+  const saidas = movements
+    .filter((item) => item.tipo === "saida")
+    .slice(0, 50)
+    .map((item, index) => ({
+      numeroDaSaida: item.gestioNumero ?? index + 1,
+      seq: index + 1,
+      codigoDaFilial: item.codigoDaFilial,
+      idProd: item.idProd,
+      codigoInterno: item.codigoInterno,
+      descricaoDoProduto: item.observacao ?? "Movimentacao local",
+      quantidade: item.quantidade,
+      dataDaSaida: item.createdAt,
+      codigoDoProjeto: item.codigoDoProjeto,
+      observacao: item.observacao,
+    }));
+
+  return { entradas, saidas };
+}
 
 export async function GET() {
   const auth = await requirePermission("warehouse:read");
@@ -22,11 +70,22 @@ export async function GET() {
         saidas: saidas.slice(0, 50),
         totalEntradas: entradas.length,
         totalSaidas: saidas.length,
+        source: "gestio",
       },
     });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Erro ao listar movimentações";
-    return NextResponse.json({ error: { message } }, { status: 500 });
+  } catch {
+    const store = await getStore();
+    const fallback = mapLocalMovementsFallback(store.movementLogs);
+
+    return NextResponse.json({
+      data: {
+        entradas: fallback.entradas,
+        saidas: fallback.saidas,
+        totalEntradas: fallback.entradas.length,
+        totalSaidas: fallback.saidas.length,
+        source: "local-fallback",
+      },
+    });
   }
 }
 
@@ -73,7 +132,8 @@ export async function POST(request: Request) {
     });
     return NextResponse.json({ data: result });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Erro ao registrar movimentação";
+    const message =
+      error instanceof Error ? error.message : "Erro ao registrar movimentacao";
     return NextResponse.json({ error: { message } }, { status: 500 });
   }
 }
