@@ -32,7 +32,7 @@ async function createSupabaseServerClient() {
               cookieStore.set(name, value, options),
             );
           } catch {
-            /* Server Component — ignore */
+            /* Server Component */
           }
         },
       },
@@ -43,14 +43,16 @@ async function createSupabaseServerClient() {
 async function getSupabaseSessionUser(): Promise<SessionUser | null> {
   if (!isSupabaseAuthConfigured()) return null;
   const supabase = await createSupabaseServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user?.email) return null;
 
   const role = (user.app_metadata?.role as UserRole) ?? "viewer";
   return {
     id: user.id,
     email: user.email,
-    name: user.user_metadata?.name ?? user.email.split("@")[0] ?? "Usuário",
+    name: user.user_metadata?.name ?? user.email.split("@")[0] ?? "Usuario",
     role,
     tenantId: (user.app_metadata?.tenant_id as string) ?? DEFAULT_TENANT_ID,
     provider: "supabase",
@@ -71,6 +73,23 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
   return getLocalSessionUser();
 }
 
+async function tryLocalCredentials(
+  email: string,
+  password: string,
+): Promise<SessionUser | null> {
+  const local = await verifyLocalPassword(email, password);
+  if (!local) return null;
+
+  return {
+    id: local.id,
+    email: local.email,
+    name: local.name,
+    role: local.role,
+    tenantId: local.tenantId,
+    provider: "local",
+  };
+}
+
 export async function loginWithCredentials(
   email: string,
   password: string,
@@ -81,35 +100,30 @@ export async function loginWithCredentials(
       email,
       password,
     });
-    if (error || !data.user) {
-      throw new Error(error?.message ?? "Credenciais inválidas");
+
+    if (!error && data.user?.email) {
+      const role = (data.user.app_metadata?.role as UserRole) ?? "viewer";
+      return {
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.user_metadata?.name ?? data.user.email.split("@")[0] ?? "Usuario",
+        role,
+        tenantId:
+          (data.user.app_metadata?.tenant_id as string) ?? DEFAULT_TENANT_ID,
+        provider: "supabase",
+      };
     }
-    const role = (data.user.app_metadata?.role as UserRole) ?? "viewer";
-    return {
-      id: data.user.id,
-      email: data.user.email!,
-      name:
-        data.user.user_metadata?.name ??
-        data.user.email!.split("@")[0] ??
-        "Usuário",
-      role,
-      tenantId:
-        (data.user.app_metadata?.tenant_id as string) ?? DEFAULT_TENANT_ID,
-      provider: "supabase",
-    };
+
+    const localFallback = await tryLocalCredentials(email, password);
+    if (localFallback) return localFallback;
+
+    throw new Error(error?.message ?? "Credenciais invalidas");
   }
 
-  const local = await verifyLocalPassword(email, password);
-  if (!local) throw new Error("E-mail ou senha incorretos");
+  const localFallback = await tryLocalCredentials(email, password);
+  if (localFallback) return localFallback;
 
-  return {
-    id: local.id,
-    email: local.email,
-    name: local.name,
-    role: local.role,
-    tenantId: local.tenantId,
-    provider: "local",
-  };
+  throw new Error("E-mail ou senha incorretos");
 }
 
 export async function logoutCurrentUser(): Promise<void> {

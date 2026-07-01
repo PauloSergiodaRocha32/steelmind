@@ -8,21 +8,20 @@ import {
   setSessionCookie,
   clearSessionCookie,
 } from "@/lib/auth/session-token";
-import { isSupabaseAuthConfigured } from "@/lib/auth/session";
 
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as { email?: string; password?: string };
     if (!body.email || !body.password) {
       return NextResponse.json(
-        { error: { message: "E-mail e senha são obrigatórios" } },
+        { error: { message: "E-mail e senha sao obrigatorios" } },
         { status: 400 },
       );
     }
 
     const user = await loginWithCredentials(body.email, body.password);
 
-    if (!isSupabaseAuthConfigured()) {
+    if (user.provider === "local") {
       const token = await buildSessionForUser(user);
       await setSessionCookie(token);
     }
