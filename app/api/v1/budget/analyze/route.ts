@@ -45,12 +45,25 @@ export async function POST(request: Request) {
     );
     await saveQuote(quote);
 
-    runQuoteEngineV2Shadow({
+    void runQuoteEngineV2Shadow({
       title: quote.titulo,
       notes: observacoes,
       files: arquivos,
       legacyTotal: quote.custos.total,
+      legacyBreakdown: {
+        materiais: quote.custos.materiais,
+        maoDeObra: quote.custos.maoDeObra,
+        consumiveis: quote.custos.servicos,
+        pintura: 0,
+        logistica: 0,
+        margem: quote.custos.margemValor,
+        precoFinal: quote.custos.total,
+      },
       requestedBy: auth.id,
+      estimator: "official-budget-engine-v1",
+      projectType: "guarda-corpo",
+    }).catch((error) => {
+      console.error("[quote-engine-v2-shadow] persistence failed", error);
     });
 
     return NextResponse.json({ data: quote }, { status: 201 });

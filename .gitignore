@@ -44,6 +44,7 @@ yarn-error.log*
 /data/steelmind/quotes.json
 /data/steelmind/opportunities.json
 /data/steelmind/ai/
+/data/steelmind/shadow/
 
 # typescript
 *.tsbuildinfo

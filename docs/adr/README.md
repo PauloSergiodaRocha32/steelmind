@@ -20,3 +20,4 @@ This directory stores all architecture decisions that affect domain boundaries, 
 - ADR-006 — AI Grounded Reasoning Only
 - ADR-007 — Guardrail Constructive System as First Complete Vertical Slice
 - ADR-008 — Strangler Migration from Legacy Estimator to Quote Engine V2
+- ADR-009 — Shadow Calibration and Benchmark Infrastructure
