@@ -70,9 +70,25 @@ export async function POST(request: Request) {
         triggeredBy: user.role,
         environment: process.env.NODE_ENV === "production" ? "production" : "local",
       },
-      context: {
-        references: [{ kind: "constitution", ref: "CONSTITUTION_V2.md#4" }],
+      decision: {
+        decisionClass: "A",
+        minimumConfidence: 0.75,
+        requiresGuardian: true,
       },
+      context: {
+        references: [
+          { kind: "constitution", ref: "CONSTITUTION_V2.md#4" },
+          { kind: "adr", ref: "ADR-015" },
+        ],
+      },
+      actions: [
+        {
+          type: "execute",
+          description: "Run governed multi-agent operational audit",
+          owner: "qa",
+          priority: "high",
+        },
+      ],
     });
 
     const summary = formatAgentReportSummary(report);

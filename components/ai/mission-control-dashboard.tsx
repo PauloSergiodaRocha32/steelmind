@@ -43,6 +43,8 @@ type MissionControlData = {
   }>;
   guardian: {
     state: string;
+    checks: number;
+    blocked: number;
     lastDecision: {
       outcome: string;
       decidedBy: string;
@@ -54,6 +56,7 @@ type MissionControlData = {
     totalExecutions: number;
     totalEvents: number;
     lastStoredAt: string | null;
+    averageResponseMs: number;
     usage: {
       decisionRecords: number;
       executionRecords: number;
@@ -92,6 +95,7 @@ export function MissionControlDashboard() {
         body: JSON.stringify({
           capability: "platform.audit",
           prompt: "Run mission control operational check",
+          target: "qa",
         }),
       });
       await load();
@@ -128,7 +132,7 @@ export function MissionControlDashboard() {
               {data.agents.filter((agent) => agent.online).length}/{data.agents.length} agentes online
             </p>
             <p className="text-sm text-muted-foreground">
-              Guardian: {data.guardian.state} - Ultimo evento: {data.lastEvent?.type ?? "n/a"}
+              Guardian: {data.guardian.state} ({data.guardian.blocked} bloqueios) - Ultimo evento: {data.lastEvent?.type ?? "n/a"}
             </p>
           </div>
           <Button onClick={() => void runCheck()} disabled={running} className="gap-2">
@@ -173,6 +177,9 @@ export function MissionControlDashboard() {
             </p>
             <p>
               <strong>Eventos:</strong> {data.memory.totalEvents}
+            </p>
+            <p>
+              <strong>Tempo medio:</strong> {data.memory.averageResponseMs}ms
             </p>
             <p>
               <strong>Ultima gravacao:</strong>{" "}
@@ -230,7 +237,7 @@ export function MissionControlDashboard() {
         <CardContent className="flex items-center gap-3 text-sm">
           <ShieldCheck className="h-5 w-5 text-primary" />
           <span>
-            Estado: <strong>{data.guardian.state}</strong>
+            Estado: <strong>{data.guardian.state}</strong> ({data.guardian.checks} checks, {data.guardian.blocked} bloqueios)
           </span>
         </CardContent>
       </Card>

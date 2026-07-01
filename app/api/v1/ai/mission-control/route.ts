@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
   const response = await executeCouncilRequest({
     requestedBy: auth.id,
-    target: (body.target as Parameters<typeof executeCouncilRequest>[0]["target"]) ?? "ai-council",
+    target: (body.target as Parameters<typeof executeCouncilRequest>[0]["target"]) ?? "qa",
     capability: body.capability ?? "platform.audit",
     prompt: body.prompt ?? "Run operational mission control check",
     execution: {
@@ -30,9 +30,25 @@ export async function POST(request: Request) {
       triggeredBy: auth.role,
       environment: process.env.NODE_ENV === "production" ? "production" : "local",
     },
-    context: {
-      references: [{ kind: "constitution", ref: "CONSTITUTION_V2.md#4" }],
+    decision: {
+      decisionClass: "A",
+      minimumConfidence: 0.75,
+      requiresGuardian: true,
     },
+    context: {
+      references: [
+        { kind: "constitution", ref: "CONSTITUTION_V2.md#4" },
+        { kind: "adr", ref: "ADR-015" },
+      ],
+    },
+    actions: [
+      {
+        type: "execute",
+        description: "Run mission control governed verification",
+        owner: "qa",
+        priority: "high",
+      },
+    ],
   });
 
   return NextResponse.json({ data: response });

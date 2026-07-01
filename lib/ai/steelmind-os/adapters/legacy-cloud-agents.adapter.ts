@@ -1,4 +1,8 @@
 import { runOrchestrator, runSingleAgent } from "@/lib/ai/agents/orchestrator";
+import { generateSteelAIReply } from "@/lib/ai/steelmind-brain";
+import { assessQuoteReadinessForQuote } from "@/application/quoting/use-cases/assess-quote-readiness";
+import type { PlatformAIContext } from "@/lib/ai/context-builder";
+import type { SteelQuote } from "@/types/budget";
 import type { AgentId } from "@/types/ai-agents";
 import type { CouncilRuntimeAgent } from "@/lib/ai/steelmind-os/core/agent-registry";
 import type { AgentRequest } from "@/lib/ai/steelmind-os/protocol";
@@ -8,6 +12,14 @@ type LegacyGroup = {
   name: string;
   capabilities: string[];
   agents: AgentId[];
+};
+
+type AdapterPayload = {
+  message?: string;
+  aiContext?: PlatformAIContext;
+  path?: string;
+  quote?: SteelQuote;
+  notes?: string;
 };
 
 const LEGACY_GROUPS: LegacyGroup[] = [
@@ -104,6 +116,55 @@ function summarizeLegacyResults(results: Awaited<ReturnType<typeof runSingleAgen
   };
 }
 
+function toPayload(request: AgentRequest): AdapterPayload {
+  return (request.context.payload ?? {}) as AdapterPayload;
+}
+
+async function executeKnowledgeEngine(request: AgentRequest) {
+  if (!request.capability.startsWith("knowledge.")) return null;
+
+  const payload = toPayload(request);
+  if (!payload.message || !payload.aiContext) return null;
+
+  const response = await generateSteelAIReply(payload.message, payload.aiContext);
+  const confidence = response.mode === "openai" ? 0.9 : 0.82;
+
+  return {
+    status: confidence < request.context.decision.minimumConfidence ? "needs_input" : "approved",
+    summary: `Knowledge engine generated response (${response.mode}).`,
+    confidence,
+    payload: {
+      content: response.content,
+      mode: response.mode,
+      sourcePath: payload.path ?? payload.aiContext.path,
+    },
+  } as const;
+}
+
+function executeBudgetEngine(request: AgentRequest) {
+  if (!request.capability.startsWith("budget.")) return null;
+
+  const payload = toPayload(request);
+  if (!payload.quote) return null;
+
+  const readiness = assessQuoteReadinessForQuote(payload.quote, payload.notes);
+  const status =
+    readiness.level === "blocked"
+      ? "refused"
+      : readiness.level === "review_required"
+        ? "needs_input"
+        : "approved";
+
+  return {
+    status,
+    summary: `Quote readiness ${readiness.level} (${readiness.score}/100).`,
+    confidence: Math.max(0.4, Math.min(0.95, readiness.score / 100)),
+    payload: {
+      readiness,
+    },
+  } as const;
+}
+
 async function executeLegacyGroup(group: LegacyGroup, request: AgentRequest) {
   if (request.capability.startsWith("platform.")) {
     const report = await runOrchestrator("steelmind-os");
@@ -116,6 +177,16 @@ async function executeLegacyGroup(group: LegacyGroup, request: AgentRequest) {
         report,
       },
     } as const;
+  }
+
+  const budgetExecution = executeBudgetEngine(request);
+  if (budgetExecution) {
+    return budgetExecution;
+  }
+
+  const knowledgeExecution = await executeKnowledgeEngine(request);
+  if (knowledgeExecution) {
+    return knowledgeExecution;
   }
 
   const results = await Promise.all(group.agents.map((agentId) => runSingleAgent(agentId)));
@@ -139,7 +210,8 @@ export function createLegacyCouncilAgents(): CouncilRuntimeAgent[] {
     capabilities: group.capabilities,
     canHandle: (request) =>
       request.target === group.target ||
-      group.capabilities.some((capability) => request.capability.startsWith(capability.split(".")[0] ?? "")),
+      request.capability.startsWith(`${group.target}.`) ||
+      group.capabilities.some((capability) => request.capability.startsWith(capability)),
     execute: (request) => executeLegacyGroup(group, request),
   }));
 }
