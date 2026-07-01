@@ -35,6 +35,9 @@ yarn-error.log*
 # gestio sync output (large catalog snapshot)
 /data/gestio/catalog.json
 
+# local backups
+/backups/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
