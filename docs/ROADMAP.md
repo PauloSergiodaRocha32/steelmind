@@ -11,7 +11,7 @@
 SteelMind grows in **platform layers**, not feature sprints. Each phase adds structural capability that enables the next. Business features (proposals, specifications, forecasts) are built **within** these phases once the platform supports them.
 
 ```
-Foundation → Domain Structure → Data & API → Events & Integration → Scale & Observability
+Foundation → SIP (Intelligence Platform) → Domain Structure → Data & API → Events & Integration → Scale
 ```
 
 **AI agent rule:** Check the current phase before starting work. If a task belongs to a future phase, stop and confirm with the user.
@@ -22,18 +22,21 @@ Foundation → Domain Structure → Data & API → Events & Integration → Scal
 
 | Phase | Name | Status | Goal |
 |-------|------|--------|------|
-| 0 | Foundation | **Current** | Project scaffold, layout, docs, conventions |
+| 0 | Foundation | **Complete** | Project scaffold, layout, docs, Gest.io MVP, warehouse |
+| **SIP** | **Intelligence Platform** | **Current** | Data (`providers/`), Knowledge (`knowledge/`), Agents (`agents/`) |
 | 1 | Domain Structure | Planned | Module internals, domain/application layers |
 | 2 | Data & API | Planned | Persistence, repositories, REST API |
 | 3 | Events & Integration | Planned | Event bus, cross-context communication |
-| 4 | Auth & Platform | Planned | Authentication, authorization, multi-tenancy |
+| 4 | Auth & Platform | In progress | Authentication, authorization (partial — local JWT + Supabase) |
 | 5 | Scale & Observability | Planned | Performance, monitoring, optional service extraction |
+
+See [SIP.md](./SIP.md) for SIP sub-phases (SIP-0 through SIP-4).
 
 ---
 
-## 3. Phase 0 — Foundation ✅ Current
+## 3. Phase 0 — Foundation ✅ Complete
 
-**Goal:** Establish the project skeleton, documentation, and development conventions.
+**Goal:** Establish the project skeleton, documentation, development conventions, and first Gest.io integration.
 
 ### Deliverables
 
@@ -43,32 +46,61 @@ Foundation → Domain Structure → Data & API → Events & Integration → Scal
 | Tailwind CSS + shadcn/ui | Done | `components/ui/`, `styles/` |
 | Application shell (sidebar, header, dashboard) | Done | `components/layout/` |
 | Responsive layout + dark mode | Done | `components/layout/`, `styles/` |
-| Module placeholders (commercial, engineering, budget) | Done | `modules/` |
+| Module placeholders + warehouse, purchasing, engineering | Done | `modules/` |
+| Gest.io client, sync, taxonomy | Done | `services/gestio/`, `data/gestio/` |
 | Project documentation | Done | `docs/` |
 | Coding standards & Git strategy | Done | `docs/CODING_STANDARDS.md` |
-
-### Explicitly Out of Scope for Phase 0
-
-- Authentication / authorization
-- Database / persistence
-- Business logic / CRUD features
-- API route handlers
-- Event bus implementation
-- Testing infrastructure
-- CI/CD pipeline
-- External integrations
+| Auth (local JWT + Supabase path) | Done | `lib/auth/`, `supabase/migrations/` |
 
 ### Exit Criteria
 
 - [x] Application runs locally with `npm run dev`
-- [x] All documented folders exist
 - [x] Documentation complete (MASTERPLAN, PRODUCT_VISION, ARCHITECTURE, CODING_STANDARDS, ROADMAP)
-- [x] Layout navigates between module placeholder pages
+- [x] Layout navigates between module pages
+- [x] Gest.io sync operational for warehouse catalog
 - [x] Dark mode functional
 
 ---
 
-## 4. Phase 1 — Domain Structure
+## 4. SIP — SteelMind Intelligence Platform 🔵 Current
+
+**Goal:** Transform SteelMind from application software into a knowledge-driven engineering intelligence platform.
+
+Full specification: [SIP.md](./SIP.md)
+
+### SIP Sub-Phases
+
+| Sub-phase | Name | Status | Goal |
+|-----------|------|--------|------|
+| SIP-0 | Governance | **Current** | Scaffold `knowledge/`, `providers/`, `agents/`; contracts; ADR |
+| SIP-1 | Data Platform | Planned | Migrate `services/gestio/` → `providers/gestio/`; inventory + materials |
+| SIP-2 | Knowledge Platform | Planned | Seed knowledge tree; versioned calculation specs |
+| SIP-3 | Agent Platform | Planned | Agent charters; Orchestrator MVP |
+| SIP-4 | Builder Loop | Planned | Intent → PR golden path with human review |
+
+### SIP-0 Deliverables
+
+| Item | Status | Location |
+|------|--------|----------|
+| SIP master document | Done | `docs/SIP.md` |
+| ADR 0001 | Done | `docs/adr/0001-steelmind-intelligence-platform.md` |
+| Knowledge scaffold | Done | `knowledge/` |
+| Providers scaffold | Done | `providers/` |
+| Agents scaffold | Done | `agents/` |
+| ROADMAP + MASTERPLAN updated | Done | `docs/` |
+
+### SIP-0 Exit Criteria
+
+- [x] Four pillars documented
+- [x] Top-level folders exist with README contracts
+- [x] Migration path from `services/gestio/` documented
+- [ ] First provider cutover (`providers/gestio/`) — SIP-1
+- [ ] First knowledge articles (engineering + constitution) — SIP-2
+- [ ] First agent charter — SIP-3
+
+---
+
+## 5. Phase 1 — Domain Structure
 
 **Goal:** Introduce DDD layers inside each bounded context module.
 
@@ -126,7 +158,7 @@ modules/commercial/
 
 ---
 
-## 5. Phase 2 — Data & API
+## 6. Phase 2 — Data & API
 
 **Goal:** Add persistence layer and REST API following documented conventions.
 
@@ -168,7 +200,7 @@ Follow [ARCHITECTURE.md — Section 6](./ARCHITECTURE.md#6-api-conventions) exac
 
 ---
 
-## 6. Phase 3 — Events & Integration
+## 7. Phase 3 — Events & Integration
 
 **Goal:** Enable loose coupling between bounded contexts via domain events.
 
@@ -207,7 +239,7 @@ Follow [ARCHITECTURE.md — Section 5.3](./ARCHITECTURE.md#53-event-naming-conve
 
 ---
 
-## 7. Phase 4 — Auth & Platform
+## 8. Phase 4 — Auth & Platform
 
 **Goal:** Secure the application with authentication, authorization, and tenant isolation.
 
@@ -241,7 +273,7 @@ Follow [ARCHITECTURE.md — Section 5.3](./ARCHITECTURE.md#53-event-naming-conve
 
 ---
 
-## 8. Phase 5 — Scale & Observability
+## 9. Phase 5 — Scale & Observability
 
 **Goal:** Prepare for production scale, monitoring, and optional service extraction.
 
@@ -277,7 +309,7 @@ Follow [ARCHITECTURE.md — Section 5.3](./ARCHITECTURE.md#53-event-naming-conve
 
 ---
 
-## 9. Business Feature Development
+## 10. Business Feature Development
 
 Business features (proposals, specifications, budgets, reports) are **not listed in this roadmap**. They are developed within the active platform phase:
 
@@ -293,13 +325,14 @@ Business features (proposals, specifications, budgets, reports) are **not listed
 
 ---
 
-## 10. Decision Log
+## 11. Decision Log
 
 Track major roadmap decisions here. Detailed rationale goes in `docs/adr/`.
 
 | Date | Decision | Rationale |
 |------|----------|-----------|
 | 2026-06 | Phase 0 complete — foundation only | Establish conventions before features |
+| 2026-07 | Adopt SIP (Intelligence Platform) | Shift from building software to building knowledge-driven infrastructure |
 | TBD | Database selection | ADR pending — Phase 2 |
 | TBD | Auth provider selection | ADR pending — Phase 4 |
 | TBD | Message broker selection | ADR pending — Phase 5 |
@@ -307,7 +340,7 @@ Track major roadmap decisions here. Detailed rationale goes in `docs/adr/`.
 
 ---
 
-## 11. How to Advance a Phase
+## 12. How to Advance a Phase
 
 1. All exit criteria of the current phase are met
 2. Lead architect reviews and approves
@@ -317,7 +350,7 @@ Track major roadmap decisions here. Detailed rationale goes in `docs/adr/`.
 
 ---
 
-## 12. Related Documents
+## 13. Related Documents
 
 - [MASTERPLAN.md](./MASTERPLAN.md) — project governance
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — technical design per phase

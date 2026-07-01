@@ -24,6 +24,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Document | Description |
 |----------|-------------|
+| [docs/SIP.md](docs/SIP.md) | SteelMind Intelligence Platform — Data, Knowledge, Agents |
 | [docs/MASTERPLAN.md](docs/MASTERPLAN.md) | Project governance and document map |
 | [docs/PRODUCT_VISION.md](docs/PRODUCT_VISION.md) | Product philosophy and domain boundaries |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design, DDD, events, API conventions |
