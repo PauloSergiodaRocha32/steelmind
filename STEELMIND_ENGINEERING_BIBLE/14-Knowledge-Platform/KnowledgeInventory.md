@@ -2,7 +2,7 @@
 
 Inventário automático da base de conhecimento.
 
-- Total de documentos markdown: **144**
+- Total de documentos markdown: **150**
 - Documentos com TODO: **84**
 
 | Seção | Documentos | Com TODO |
@@ -18,7 +18,7 @@ Inventário automático da base de conhecimento.
 | [08-AI](../08-AI/_INDEX.md) | 7 | 6 |
 | [09-Templates](../09-Templates/_INDEX.md) | 7 | 6 |
 | [10-Playbooks](../10-Playbooks/_INDEX.md) | 6 | 5 |
-| [11-ADRs](../11-ADRs/_INDEX.md) | 17 | 0 |
+| [11-ADRs](../11-ADRs/_INDEX.md) | 18 | 0 |
 | [12-Roadmap](../12-Roadmap/_INDEX.md) | 9 | 0 |
 | [13-Research](../13-Research/_INDEX.md) | 10 | 0 |
-| [14-Knowledge-Platform](../14-Knowledge-Platform/_INDEX.md) | 11 | 0 |
+| [14-Knowledge-Platform](../14-Knowledge-Platform/_INDEX.md) | 16 | 0 |

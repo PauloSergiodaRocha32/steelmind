@@ -15,3 +15,4 @@ Consolidar visão executiva das decisões já aceitas e seus impactos diretos na
 | Bible navegável | baixa encontrabilidade | onboarding e operação de conhecimento |
 | Knowledge Platform enterprise | crescimento desorganizado da wiki | descoberta rápida e governança de longo prazo |
 | Readiness gate operacional | confirmação insegura de orçamento | redução de risco entre comercial e operação |
+| Wiki v2 com rastreabilidade | conhecimento desconectado do código | ligação explícita entre decisão, implementação e teste |

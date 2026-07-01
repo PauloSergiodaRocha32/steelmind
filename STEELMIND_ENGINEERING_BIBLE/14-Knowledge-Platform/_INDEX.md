@@ -10,7 +10,10 @@ Arquivo gerado automaticamente por `npm run bible:index`.
 
 | Documento | Título |
 |-----------|--------|
+| [AgentIdeasBacklog.md](AgentIdeasBacklog.md) | Agent Ideas Backlog |
+| [ArchitectureContextMap.md](ArchitectureContextMap.md) | Architecture Context Map |
 | [CatalogHub.md](CatalogHub.md) | Catalog Hub |
+| [ConsolidatedRiskCatalog.md](ConsolidatedRiskCatalog.md) | Consolidated Risk Catalog |
 | [ContributionGovernance.md](ContributionGovernance.md) | Contribution Governance |
 | [InformationTaxonomy.md](InformationTaxonomy.md) | Information Taxonomy |
 | [KnowledgeGraph.md](KnowledgeGraph.md) | Knowledge Graph |
@@ -20,3 +23,5 @@ Arquivo gerado automaticamente por `npm run bible:index`.
 | [PlatformArchitecture.md](PlatformArchitecture.md) | Platform Architecture |
 | [QualityDashboard.md](QualityDashboard.md) | Quality Dashboard |
 | [README.md](README.md) | 14-Knowledge-Platform |
+| [SemanticCrossLinks.md](SemanticCrossLinks.md) | Semantic Cross Links |
+| [TraceabilityMatrix.md](TraceabilityMatrix.md) | Traceability Matrix |

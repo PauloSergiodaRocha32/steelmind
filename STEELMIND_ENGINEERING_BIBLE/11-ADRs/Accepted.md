@@ -11,3 +11,4 @@
 | [ADR-006-Bible-Navegavel](ADR-006-Bible-Navegavel.md) | Bible navegável e operacional | Accepted |
 | [ADR-007-Knowledge-Platform-Enterprise](ADR-007-Knowledge-Platform-Enterprise.md) | Knowledge Platform enterprise | Accepted |
 | [ADR-008-Readiness-Gate-Operacional](ADR-008-Readiness-Gate-Operacional.md) | Readiness Gate operacional | Accepted |
+| [ADR-009-Wiki-V2-CrossLinks-Rastreabilidade](ADR-009-Wiki-V2-CrossLinks-Rastreabilidade.md) | Wiki v2 cross-links e rastreabilidade | Accepted |

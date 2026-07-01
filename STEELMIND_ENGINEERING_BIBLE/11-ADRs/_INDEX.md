@@ -20,6 +20,7 @@ Arquivo gerado automaticamente por `npm run bible:index`.
 | [ADR-006-Bible-Navegavel.md](ADR-006-Bible-Navegavel.md) | ADR-006: Engineering Bible como base navegável e operacional |
 | [ADR-007-Knowledge-Platform-Enterprise.md](ADR-007-Knowledge-Platform-Enterprise.md) | ADR-007: Knowledge Platform enterprise com taxonomia e descoberta |
 | [ADR-008-Readiness-Gate-Operacional.md](ADR-008-Readiness-Gate-Operacional.md) | ADR-008: Readiness Gate operacional antes da confirmação do orçamento |
+| [ADR-009-Wiki-V2-CrossLinks-Rastreabilidade.md](ADR-009-Wiki-V2-CrossLinks-Rastreabilidade.md) | ADR-009: Wiki v2 com cross-links semânticos e rastreabilidade |
 | [CatalogoDecisoes.md](CatalogoDecisoes.md) | Catálogo de decisões arquiteturais |
 | [Deprecated.md](Deprecated.md) | ADRs Deprecadas |
 | [Proposed.md](Proposed.md) | ADRs Propostas |

@@ -25,3 +25,4 @@ This directory stores all architecture decisions that affect domain boundaries, 
 - ADR-011 — Engineering Bible as Navigable Knowledge System
 - ADR-012 — Knowledge Platform Information Architecture and Governance
 - ADR-013 — Quote Readiness Gate for Operational Confirmation
+- ADR-014 — Wiki v2 Semantic Cross-links and Traceability Matrix

@@ -15,10 +15,10 @@ Visão de qualidade documental gerada automaticamente.
 | [10-Playbooks](../10-Playbooks/_INDEX.md) | 6 | 5 | 17 |
 | [06-Domains](../06-Domains/_INDEX.md) | 11 | 9 | 18 |
 | [00-Foundation](../00-Foundation/_INDEX.md) | 9 | 7 | 22 |
-| [11-ADRs](../11-ADRs/_INDEX.md) | 17 | 0 | 100 |
+| [11-ADRs](../11-ADRs/_INDEX.md) | 18 | 0 | 100 |
 | [12-Roadmap](../12-Roadmap/_INDEX.md) | 9 | 0 | 100 |
 | [13-Research](../13-Research/_INDEX.md) | 10 | 0 | 100 |
-| [14-Knowledge-Platform](../14-Knowledge-Platform/_INDEX.md) | 11 | 0 | 100 |
+| [14-Knowledge-Platform](../14-Knowledge-Platform/_INDEX.md) | 16 | 0 | 100 |
 
 ## Prioridades sugeridas
 

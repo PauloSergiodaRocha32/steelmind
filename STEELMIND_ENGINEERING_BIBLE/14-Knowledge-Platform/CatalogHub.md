@@ -16,3 +16,5 @@ Centralizar acesso aos catálogos da plataforma sem duplicar conhecimento.
 | Catálogo de integrações | [../02-Architecture/ACL.md](../02-Architecture/ACL.md) |
 | Catálogo de templates | [../09-Templates/_INDEX.md](../09-Templates/_INDEX.md) |
 | Catálogo de playbooks | [../10-Playbooks/_INDEX.md](../10-Playbooks/_INDEX.md) |
+| Catálogo consolidado de riscos | [ConsolidatedRiskCatalog.md](ConsolidatedRiskCatalog.md) |
+| Catálogo de rastreabilidade | [TraceabilityMatrix.md](TraceabilityMatrix.md) |

@@ -139,6 +139,7 @@ This addendum follows:
 - ADR-011 (engineering bible as navigable knowledge system)
 - ADR-012 (knowledge platform information architecture and governance)
 - ADR-013 (quote readiness gate for operational confirmation)
+- ADR-014 (wiki v2 semantic cross-links and traceability matrix)
 
 ## 8. Quality Gates (CI)
 

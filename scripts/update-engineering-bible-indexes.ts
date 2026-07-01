@@ -10,6 +10,20 @@ type SectionMeta = {
   related: string[];
 };
 
+type SemanticTheme = {
+  theme: string;
+  intent: string;
+  canonicalDocs: string[];
+};
+
+type TraceabilityLink = {
+  id: string;
+  topic: string;
+  docs: string[];
+  code: string[];
+  tests: string[];
+};
+
 const SECTION_META: Record<string, SectionMeta> = {
   "00-Foundation": {
     purpose: "Missão, visão, constituição e princípios-base",
@@ -88,6 +102,111 @@ const SECTION_META: Record<string, SectionMeta> = {
   },
 };
 
+const SEMANTIC_THEMES: SemanticTheme[] = [
+  {
+    theme: "Arquitetura orientada a domínio",
+    intent: "Como o sistema é organizado e evolui com segurança",
+    canonicalDocs: [
+      "00-Foundation/04-Constitution.md",
+      "02-Architecture/Overview.md",
+      "02-Architecture/DDD.md",
+      "11-ADRs/CatalogoDecisoes.md",
+    ],
+  },
+  {
+    theme: "Orçamento operacional explicável",
+    intent: "Como orçamento vira ação para compras e produção",
+    canonicalDocs: [
+      "06-Domains/OrcamentoOperacionalInglesa.md",
+      "12-Roadmap/MasterRoadmap.md",
+      "13-Research/Orcamentacao.md",
+      "11-ADRs/ADR-008-Readiness-Gate-Operacional.md",
+    ],
+  },
+  {
+    theme: "Knowledge Engine e regras versionadas",
+    intent: "Como preservar e evoluir conhecimento técnico",
+    canonicalDocs: [
+      "07-Knowledge/ABNT.md",
+      "02-Architecture/RuleEngine.md",
+      "13-Research/NormasABNT.md",
+      "11-ADRs/ADR-005-Knowledge-Base-Rule-Engine.md",
+    ],
+  },
+  {
+    theme: "IA grounded e auditoria",
+    intent: "Como usar IA com confiança e rastreabilidade",
+    canonicalDocs: [
+      "08-AI/AIConstitution.md",
+      "08-AI/Guardrails.md",
+      "13-Research/IAAplicadaEngenharia.md",
+      "11-ADRs/ADR-006-Bible-Navegavel.md",
+    ],
+  },
+  {
+    theme: "Riscos e governança de execução",
+    intent: "Como evitar regressão arquitetural e operacional",
+    canonicalDocs: [
+      "12-Roadmap/RiskRegister.md",
+      "12-Roadmap/TechDebtCatalog.md",
+      "14-Knowledge-Platform/ContributionGovernance.md",
+      "05-Engineering/CI-CD.md",
+    ],
+  },
+];
+
+const TRACEABILITY_LINKS: TraceabilityLink[] = [
+  {
+    id: "TRC-001",
+    topic: "Readiness Gate operacional no orçamento",
+    docs: [
+      "06-Domains/OrcamentoOperacionalInglesa.md",
+      "11-ADRs/ADR-008-Readiness-Gate-Operacional.md",
+      "13-Research/Orcamentacao.md",
+    ],
+    code: [
+      "domains/quoting/services/quote-readiness.ts",
+      "application/quoting/use-cases/assess-quote-readiness.ts",
+      "app/api/v1/budget/chat/route.ts",
+      "app/api/v1/budget/analyze/route.ts",
+      "modules/budget/components/budget-copilot.tsx",
+    ],
+    tests: ["domains/quoting/services/quote-readiness.test.ts"],
+  },
+  {
+    id: "TRC-002",
+    topic: "Shadow mode e comparação de motores",
+    docs: [
+      "02-Architecture/ShadowMode.md",
+      "11-ADRs/ADR-003-Shadow-Mode.md",
+      "12-Roadmap/Milestones.md",
+    ],
+    code: [
+      "application/quoting/use-cases/run-quote-engine-v2-shadow.ts",
+      "modules/shadow/application/services/difference-analyzer.ts",
+      "modules/shadow/application/services/shadow-run-recorder.ts",
+    ],
+    tests: [
+      "modules/shadow/application/services/difference-analyzer.test.ts",
+      "modules/shadow/infrastructure/file-shadow-run.repository.test.ts",
+    ],
+  },
+  {
+    id: "TRC-003",
+    topic: "Knowledge Platform e automação da wiki",
+    docs: [
+      "14-Knowledge-Platform/PlatformArchitecture.md",
+      "11-ADRs/ADR-009-Wiki-V2-CrossLinks-Rastreabilidade.md",
+    ],
+    code: [
+      "scripts/create-engineering-bible.ts",
+      "scripts/seed-engineering-bible-content.ts",
+      "scripts/update-engineering-bible-indexes.ts",
+    ],
+    tests: [],
+  },
+];
+
 function readDirSorted(dir: string): string[] {
   return fs
     .readdirSync(dir)
@@ -111,6 +230,10 @@ function extractTitle(filePath: string): string {
 function hasPlaceholderTodo(filePath: string): boolean {
   const content = fs.readFileSync(filePath, "utf-8");
   return /^\s*TODO\s*$/m.test(content);
+}
+
+function toNodeId(value: string): string {
+  return value.replace(/[^a-zA-Z0-9]/g, "_");
 }
 
 function writeSectionIndex(sectionPath: string, sectionName: string) {
@@ -285,7 +408,7 @@ function writeKnowledgeGraph(rootPath: string, sections: string[]) {
   ];
 
   for (const section of sections) {
-    lines.push(`    INDEX --> ${section.replace(/[^a-zA-Z0-9]/g, "_")}["${section}"]`);
+    lines.push(`    INDEX --> ${toNodeId(section)}["${section}"]`);
   }
 
   for (const section of sections) {
@@ -293,7 +416,7 @@ function writeKnowledgeGraph(rootPath: string, sections: string[]) {
     if (!meta) continue;
     for (const related of meta.related) {
       lines.push(
-        `    ${section.replace(/[^a-zA-Z0-9]/g, "_")} --> ${related.replace(/[^a-zA-Z0-9]/g, "_")}`,
+        `    ${toNodeId(section)} --> ${toNodeId(related)}`,
       );
     }
   }
@@ -303,6 +426,170 @@ function writeKnowledgeGraph(rootPath: string, sections: string[]) {
   fs.writeFileSync(
     path.join(rootPath, PLATFORM_SECTION, "KnowledgeGraph.md"),
     lines.join("\n"),
+    "utf-8",
+  );
+}
+
+function writeSemanticCrossLinks(rootPath: string) {
+  const rows = SEMANTIC_THEMES.map((item) => {
+    const links = item.canonicalDocs
+      .map((doc) => `[${doc}](../${doc})`)
+      .join("<br>");
+    return `| ${item.theme} | ${item.intent} | ${links} |`;
+  });
+
+  const content = [
+    "# Semantic Cross Links",
+    "",
+    "Mapa semântico de temas estratégicos para descoberta rápida de conhecimento.",
+    "",
+    "| Tema | Intenção de busca | Documentos canônicos |",
+    "|------|-------------------|----------------------|",
+    ...rows,
+    "",
+    "## Regra de uso",
+    "",
+    "- Atualize primeiro o documento canônico do tema.",
+    "- Evite duplicar conteúdo; use links cruzados.",
+    "",
+  ].join("\n");
+
+  fs.writeFileSync(
+    path.join(rootPath, PLATFORM_SECTION, "SemanticCrossLinks.md"),
+    content,
+    "utf-8",
+  );
+}
+
+function writeArchitectureContextMap(rootPath: string) {
+  const lines = [
+    "# Architecture Context Map",
+    "",
+    "```mermaid",
+    "graph LR",
+    '    Comercial["Comercial"] --> Orcamento["Orçamento"]',
+    '    Orcamento --> Engenharia["Engenharia"]',
+    '    Orcamento --> Compras["Compras"]',
+    '    Orcamento --> Producao["Produção"]',
+    '    Orcamento --> Financeiro["Financeiro"]',
+    '    Orcamento --> Conhecimento["Knowledge Engine"]',
+    '    Orcamento --> Shadow["Shadow/Calibration"]',
+    '    Conhecimento --> IA["IA Grounded"]',
+    '    Integracao["ACL Gestio"] --> Orcamento',
+    '    Integracao --> Compras',
+    '    Integracao --> Engenharia',
+    "```",
+    "",
+    "## Referências de contexto",
+    "",
+    "- [02-Architecture/DDD.md](../02-Architecture/DDD.md)",
+    "- [02-Architecture/ACL.md](../02-Architecture/ACL.md)",
+    "- [06-Domains/OrcamentoOperacionalInglesa.md](../06-Domains/OrcamentoOperacionalInglesa.md)",
+    "- [11-ADRs/_INDEX.md](../11-ADRs/_INDEX.md)",
+    "",
+  ];
+
+  fs.writeFileSync(
+    path.join(rootPath, PLATFORM_SECTION, "ArchitectureContextMap.md"),
+    lines.join("\n"),
+    "utf-8",
+  );
+}
+
+function writeConsolidatedRiskCatalog(rootPath: string) {
+  const riskRegisterPath = path.join(rootPath, "12-Roadmap", "RiskRegister.md");
+  const riskLines = fs
+    .readFileSync(riskRegisterPath, "utf-8")
+    .split("\n")
+    .filter((line) => /^\| R-\d+ \|/.test(line));
+
+  const normalizedRows = riskLines.map((line) => {
+    const columns = line.split("|").map((item) => item.trim()).filter(Boolean);
+    const [id, risk, prob, impact, mitigation] = columns;
+    return `| ${id} | ${risk} | ${prob} | ${impact} | ${mitigation} | [12-Roadmap/RiskRegister.md](../12-Roadmap/RiskRegister.md) |`;
+  });
+
+  const additionalRows = [
+    "| R-OPS-01 | Dependência externa Gestio indisponível | Média | Alto | Fallback local + avisos de fonte nas APIs | [app/api/v1/purchasing/requisitions/route.ts](../../app/api/v1/purchasing/requisitions/route.ts) |",
+    "| R-OPS-02 | Confirmação de orçamento sem dados críticos | Média | Alto | Readiness Gate com bloqueio seletivo | [app/api/v1/budget/chat/route.ts](../../app/api/v1/budget/chat/route.ts) |",
+    "| R-DOC-01 | Crescimento de docs sem rastreabilidade | Média | Médio | Wiki v2 com matriz doc->código->testes | [TraceabilityMatrix.md](TraceabilityMatrix.md) |",
+  ];
+
+  const content = [
+    "# Consolidated Risk Catalog",
+    "",
+    "Consolidação de riscos estratégicos, técnicos e operacionais em uma visão única.",
+    "",
+    "| ID | Risco | Probabilidade | Impacto | Mitigação | Fonte |",
+    "|----|-------|---------------|---------|-----------|-------|",
+    ...normalizedRows,
+    ...additionalRows,
+    "",
+    "## Uso recomendado",
+    "",
+    "1. Revisar este catálogo em cada ciclo de arquitetura.",
+    "2. Atualizar risco e mitigação quando houver mudança de contexto.",
+    "3. Abrir ADR quando mitigação exigir mudança estrutural.",
+    "",
+  ].join("\n");
+
+  fs.writeFileSync(
+    path.join(rootPath, PLATFORM_SECTION, "ConsolidatedRiskCatalog.md"),
+    content,
+    "utf-8",
+  );
+}
+
+function formatPathLink(relativeFromRoot: string): string {
+  return `[${relativeFromRoot}](../${relativeFromRoot})`;
+}
+
+function formatCodeLink(relativeFromWorkspace: string): string {
+  return `[${relativeFromWorkspace}](../../${relativeFromWorkspace})`;
+}
+
+function statusChip(found: boolean): string {
+  return found ? "✅" : "⚠️";
+}
+
+function writeTraceabilityMatrix(rootPath: string) {
+  const rows = TRACEABILITY_LINKS.map((entry) => {
+    const docLinks = entry.docs.map((item) => formatPathLink(item)).join("<br>");
+    const codeLinks = entry.code
+      .map((item) => `${statusChip(fs.existsSync(path.join("/workspace", item)))} ${formatCodeLink(item)}`)
+      .join("<br>");
+    const testLinks =
+      entry.tests.length === 0
+        ? "N/A"
+        : entry.tests
+            .map(
+              (item) =>
+                `${statusChip(fs.existsSync(path.join("/workspace", item)))} ${formatCodeLink(item)}`,
+            )
+            .join("<br>");
+
+    return `| ${entry.id} | ${entry.topic} | ${docLinks} | ${codeLinks} | ${testLinks} |`;
+  });
+
+  const content = [
+    "# Traceability Matrix",
+    "",
+    "Rastreabilidade entre conhecimento, implementação e validação automatizada.",
+    "",
+    "| ID | Tema | Documento(s) | Código | Testes |",
+    "|----|------|--------------|--------|--------|",
+    ...rows,
+    "",
+    "## Política de rastreabilidade",
+    "",
+    "- Toda mudança estrutural deve ter referência documental e evidência de validação.",
+    "- Priorizar cobertura de testes para fluxos críticos operacionais.",
+    "",
+  ].join("\n");
+
+  fs.writeFileSync(
+    path.join(rootPath, PLATFORM_SECTION, "TraceabilityMatrix.md"),
+    content,
     "utf-8",
   );
 }
@@ -318,6 +605,10 @@ function main() {
   }
   writeRootIndex(ROOT);
   if (sections.includes(PLATFORM_SECTION)) {
+    writeSemanticCrossLinks(ROOT);
+    writeArchitectureContextMap(ROOT);
+    writeConsolidatedRiskCatalog(ROOT);
+    writeTraceabilityMatrix(ROOT);
     writeKnowledgeInventory(ROOT, sections);
     writeQualityDashboard(ROOT, sections);
     writeKnowledgeGraph(ROOT, sections);

@@ -17,7 +17,7 @@ Arquivo gerado automaticamente por `npm run bible:index`.
 | [08-AI](08-AI/_INDEX.md) | 7 | IA, Arquitetura, Produto | Políticas e padrões de IA grounded |
 | [09-Templates](09-Templates/_INDEX.md) | 7 | Todos | Modelos de documentos para execução padronizada |
 | [10-Playbooks](10-Playbooks/_INDEX.md) | 6 | Engenharia, Operação, Suporte | Guias operacionais para execução recorrente |
-| [11-ADRs](11-ADRs/_INDEX.md) | 17 | Arquitetura, Engenharia, Produto | Registro de decisões arquiteturais |
+| [11-ADRs](11-ADRs/_INDEX.md) | 18 | Arquitetura, Engenharia, Produto | Registro de decisões arquiteturais |
 | [12-Roadmap](12-Roadmap/_INDEX.md) | 9 | Produto, Arquitetura, Liderança | Planejamento de evolução com riscos e dependências |
 | [13-Research](13-Research/_INDEX.md) | 10 | Pesquisa, Engenharia, Produto, IA | Pesquisas estratégicas para decisões técnicas |
-| [14-Knowledge-Platform](14-Knowledge-Platform/_INDEX.md) | 11 | Todos | Arquitetura da wiki, descoberta e governança |
+| [14-Knowledge-Platform](14-Knowledge-Platform/_INDEX.md) | 16 | Todos | Arquitetura da wiki, descoberta e governança |

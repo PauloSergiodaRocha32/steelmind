@@ -447,6 +447,36 @@ Introduzir camada de prontidão operacional:
 - necessidade de calibrar regras de prontidão ao longo do uso real
 `,
 
+  "11-ADRs/ADR-009-Wiki-V2-CrossLinks-Rastreabilidade.md": `# ADR-009: Wiki v2 com cross-links semânticos e rastreabilidade
+
+- Status: Accepted
+- Data: 2026-07-01
+
+## Contexto
+
+Com o crescimento da base de conhecimento, índice hierárquico sozinho não garante descoberta rápida por tema nem rastreabilidade entre documento, código e testes.
+
+## Decisão
+
+Evoluir a Knowledge Platform para Wiki v2 com:
+
+- cross-links semânticos por tema de engenharia/produto
+- mapa de arquitetura por contexto (Mermaid)
+- catálogo consolidado de riscos
+- matriz de rastreabilidade doc -> código -> testes
+
+## Consequências
+
+### Positivas
+- recuperação de informação mais rápida para humanos e IA
+- maior capacidade de auditoria e manutenção de longo prazo
+- redução de documentos desconectados do código
+
+### Negativas
+- maior esforço de curadoria contínua da taxonomia
+- necessidade de manter mapeamentos de rastreabilidade atualizados
+`,
+
   "11-ADRs/Accepted.md": `# ADRs Aceitas
 
 | ADR | Título | Status |
@@ -460,6 +490,7 @@ Introduzir camada de prontidão operacional:
 | [ADR-006-Bible-Navegavel](ADR-006-Bible-Navegavel.md) | Bible navegável e operacional | Accepted |
 | [ADR-007-Knowledge-Platform-Enterprise](ADR-007-Knowledge-Platform-Enterprise.md) | Knowledge Platform enterprise | Accepted |
 | [ADR-008-Readiness-Gate-Operacional](ADR-008-Readiness-Gate-Operacional.md) | Readiness Gate operacional | Accepted |
+| [ADR-009-Wiki-V2-CrossLinks-Rastreabilidade](ADR-009-Wiki-V2-CrossLinks-Rastreabilidade.md) | Wiki v2 cross-links e rastreabilidade | Accepted |
 `,
 
   "11-ADRs/CatalogoDecisoes.md": `# Catálogo de decisões arquiteturais
@@ -479,6 +510,7 @@ Consolidar visão executiva das decisões já aceitas e seus impactos diretos na
 | Bible navegável | baixa encontrabilidade | onboarding e operação de conhecimento |
 | Knowledge Platform enterprise | crescimento desorganizado da wiki | descoberta rápida e governança de longo prazo |
 | Readiness gate operacional | confirmação insegura de orçamento | redução de risco entre comercial e operação |
+| Wiki v2 com rastreabilidade | conhecimento desconectado do código | ligação explícita entre decisão, implementação e teste |
 `,
 
   "11-ADRs/Proposed.md": `# ADRs Propostas
@@ -907,7 +939,11 @@ Definir a arquitetura da plataforma oficial de conhecimento do SteelMind como wi
 1. Ler [PlatformArchitecture.md](PlatformArchitecture.md)
 2. Entender taxonomia em [InformationTaxonomy.md](InformationTaxonomy.md)
 3. Navegar com [NavigationAndDiscovery.md](NavigationAndDiscovery.md)
-4. Consultar catálogos em [CatalogHub.md](CatalogHub.md)
+4. Consultar cross-links em [SemanticCrossLinks.md](SemanticCrossLinks.md)
+5. Consultar mapa por contexto em [ArchitectureContextMap.md](ArchitectureContextMap.md)
+6. Consultar riscos consolidados em [ConsolidatedRiskCatalog.md](ConsolidatedRiskCatalog.md)
+7. Consultar rastreabilidade em [TraceabilityMatrix.md](TraceabilityMatrix.md)
+8. Consultar catálogos em [CatalogHub.md](CatalogHub.md)
 `,
 
   "14-Knowledge-Platform/PlatformArchitecture.md": `# Platform Architecture
@@ -1005,6 +1041,29 @@ Centralizar acesso aos catálogos da plataforma sem duplicar conhecimento.
 | Catálogo de integrações | [../02-Architecture/ACL.md](../02-Architecture/ACL.md) |
 | Catálogo de templates | [../09-Templates/_INDEX.md](../09-Templates/_INDEX.md) |
 | Catálogo de playbooks | [../10-Playbooks/_INDEX.md](../10-Playbooks/_INDEX.md) |
+| Catálogo consolidado de riscos | [ConsolidatedRiskCatalog.md](ConsolidatedRiskCatalog.md) |
+| Catálogo de rastreabilidade | [TraceabilityMatrix.md](TraceabilityMatrix.md) |
+`,
+
+  "14-Knowledge-Platform/AgentIdeasBacklog.md": `# Agent Ideas Backlog
+
+## Objetivo
+
+Registrar melhorias sugeridas por agentes (humanos e IA) com avaliação de impacto operacional.
+
+## Critério de priorização
+
+Pergunta obrigatória para cada ideia:
+
+> Se isso existisse hoje, a Inglesa trabalharia melhor amanhã?
+
+## Backlog inicial
+
+| ID | Ideia | Impacto esperado | Status |
+|----|-------|------------------|--------|
+| AIB-001 | Pacote de handoff automático orçamento -> compras/produção | Redução de retrabalho e perda de contexto | Proposto |
+| AIB-002 | Checklist inteligente por tipologia (itens esquecidos) | Menos omissões em orçamento | Proposto |
+| AIB-003 | Rastreamento doc->código->teste em PR template | Governança contínua da arquitetura | Em execução |
 `,
 
   "14-Knowledge-Platform/OnboardingJourneys.md": `# Onboarding Journeys
@@ -1061,6 +1120,26 @@ Permitir que novos membros entendam visão, arquitetura e fluxo de contribuiçã
 `,
 
   "14-Knowledge-Platform/KnowledgeGraph.md": `# Knowledge Graph
+
+> Este arquivo é atualizado automaticamente por \`npm run bible:index\`.
+`,
+
+  "14-Knowledge-Platform/SemanticCrossLinks.md": `# Semantic Cross Links
+
+> Este arquivo é atualizado automaticamente por \`npm run bible:index\`.
+`,
+
+  "14-Knowledge-Platform/ArchitectureContextMap.md": `# Architecture Context Map
+
+> Este arquivo é atualizado automaticamente por \`npm run bible:index\`.
+`,
+
+  "14-Knowledge-Platform/ConsolidatedRiskCatalog.md": `# Consolidated Risk Catalog
+
+> Este arquivo é atualizado automaticamente por \`npm run bible:index\`.
+`,
+
+  "14-Knowledge-Platform/TraceabilityMatrix.md": `# Traceability Matrix
 
 > Este arquivo é atualizado automaticamente por \`npm run bible:index\`.
 `,
