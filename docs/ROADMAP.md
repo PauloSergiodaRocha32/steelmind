@@ -16,6 +16,8 @@ Foundation → Domain Structure → Data & API → Events & Integration → Scal
 
 **AI agent rule:** Check the current phase before starting work. If a task belongs to a future phase, stop and confirm with the user.
 
+For AI operating architecture evolution, see [`ARCHITECTURAL_ROADMAP.md`](./ARCHITECTURAL_ROADMAP.md).
+
 ---
 
 ## 2. Phase Overview
@@ -320,6 +322,9 @@ Track major roadmap decisions here. Detailed rationale goes in `docs/adr/`.
 ## 12. Related Documents
 
 - [MASTERPLAN.md](./MASTERPLAN.md) — project governance
+- [CONSTITUTION_V2.md](./CONSTITUTION_V2.md) — law-level governance for AI Council operations
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — technical design per phase
+- [STEELMIND_OS_V1.md](./STEELMIND_OS_V1.md) — SteelMind OS V1 foundation contracts
+- [CTO_AGENT_HEALTH_REPORT.md](./CTO_AGENT_HEALTH_REPORT.md) — periodic architecture and quality reporting
 - [PRODUCT_VISION.md](./PRODUCT_VISION.md) — domain boundaries for features
 - [CODING_STANDARDS.md](./CODING_STANDARDS.md) — how to implement each phase

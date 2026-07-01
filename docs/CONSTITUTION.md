@@ -3,6 +3,8 @@
 Version: 1.0  
 Status: **Active (Supreme Authority)**
 
+Evolution note: governance extension is documented in [`CONSTITUTION_V2.md`](./CONSTITUTION_V2.md) while this v1 remains historical baseline.
+
 ## 1. Purpose
 
 SteelMind exists to transform technical knowledge into reliable commercial decisions.

@@ -151,3 +151,29 @@ Automated gate pipeline validates:
 - production build
 
 This enforces non-regression for infrastructure evolution while preserving official runtime behavior.
+
+## 9. SteelMind OS V1 Foundation
+
+The AI operating model now follows a layered architecture with clear contracts:
+
+- Core: Orchestrator, Guardian, Steel Memory
+- Specialists: Engineering, Budget, Commercial, Production, Procurement, Knowledge
+- Infra: QA, DevOps, Architect, Security
+- Engines: business logic modules, decoupled from agent runtime
+
+The decision lifecycle follows an AI Council flow:
+
+1. Request normalization and routing intent
+2. Guardian constitutional policy check (block/allow)
+3. Specialist decision execution
+4. Trace assembly with rationale/references/confidence
+5. Decision persistence in Steel Memory
+
+Reference: [`STEELMIND_OS_V1.md`](./STEELMIND_OS_V1.md)
+
+Governance references:
+
+- [`CONSTITUTION.md`](./CONSTITUTION.md) (historical baseline)
+- [`CONSTITUTION_V2.md`](./CONSTITUTION_V2.md) (active governance evolution)
+- [`ARCHITECTURAL_ROADMAP.md`](./ARCHITECTURAL_ROADMAP.md) (phased architecture maturity)
+- [`CTO_AGENT_HEALTH_REPORT.md`](./CTO_AGENT_HEALTH_REPORT.md) (operational health reporting playbook)

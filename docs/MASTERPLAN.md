@@ -11,20 +11,25 @@
 | Document | Scope |
 |----------|-------|
 | [CONSTITUTION.md](./CONSTITUTION.md) | Supreme authority for architecture and product-engineering decisions |
+| [CONSTITUTION_V2.md](./CONSTITUTION_V2.md) | Law-level governance evolution with AI Council gate and hard prohibitions |
 | [PRODUCT_VISION.md](./PRODUCT_VISION.md) | Why SteelMind exists, product philosophy, domain boundaries |
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | System design, DDD, folder structure, events, API, scalability |
+| [STEELMIND_OS_V1.md](./STEELMIND_OS_V1.md) | AI operating foundation (protocol, Guardian, Steel Memory) |
+| [ARCHITECTURAL_ROADMAP.md](./ARCHITECTURAL_ROADMAP.md) | Phased architecture evolution from V1.0 to Enterprise V2.0 |
+| [CTO_AGENT_HEALTH_REPORT.md](./CTO_AGENT_HEALTH_REPORT.md) | Periodic operational health reporting playbook |
 | [CODING_STANDARDS.md](./CODING_STANDARDS.md) | Code style, naming, components, Git, PRs, branches |
 | [ROADMAP.md](./ROADMAP.md) | Phased delivery plan (infrastructure & platform, not features) |
 | [adr/README.md](./adr/README.md) | Architecture Decision Records index |
 
 **Read order for new contributors and AI agents:**
 
-1. CONSTITUTION → non-negotiable engineering and domain rules
+1. CONSTITUTION + CONSTITUTION_V2 → non-negotiable engineering and governance rules
 2. PRODUCT_VISION → understand intent and boundaries
-3. ARCHITECTURE → understand structure and patterns
-4. CODING_STANDARDS → understand how to write code
-5. ROADMAP → understand what to build next and what to defer
-6. ADR index → confirm accepted structural decisions
+3. ARCHITECTURE + STEELMIND_OS_V1 → understand structure and AI operating model
+4. ARCHITECTURAL_ROADMAP → understand target maturity path
+5. CODING_STANDARDS → understand how to write code
+6. ROADMAP → understand what to build next and what to defer
+7. ADR index → confirm accepted structural decisions
 
 ---
 
