@@ -1,0 +1,63 @@
+# Knowledge Graph
+
+```mermaid
+graph TD
+    HOME["HOME"] --> INDEX["Índice Global"]
+    INDEX --> 00_Foundation["00-Foundation"]
+    INDEX --> 01_Product["01-Product"]
+    INDEX --> 02_Architecture["02-Architecture"]
+    INDEX --> 03_Frontend["03-Frontend"]
+    INDEX --> 04_Backend["04-Backend"]
+    INDEX --> 05_Engineering["05-Engineering"]
+    INDEX --> 06_Domains["06-Domains"]
+    INDEX --> 07_Knowledge["07-Knowledge"]
+    INDEX --> 08_AI["08-AI"]
+    INDEX --> 09_Templates["09-Templates"]
+    INDEX --> 10_Playbooks["10-Playbooks"]
+    INDEX --> 11_ADRs["11-ADRs"]
+    INDEX --> 12_Roadmap["12-Roadmap"]
+    INDEX --> 13_Research["13-Research"]
+    INDEX --> 14_Knowledge_Platform["14-Knowledge-Platform"]
+    00_Foundation --> 01_Product
+    00_Foundation --> 02_Architecture
+    00_Foundation --> 11_ADRs
+    01_Product --> 00_Foundation
+    01_Product --> 12_Roadmap
+    01_Product --> 13_Research
+    02_Architecture --> 11_ADRs
+    02_Architecture --> 04_Backend
+    02_Architecture --> 06_Domains
+    03_Frontend --> 01_Product
+    03_Frontend --> 05_Engineering
+    04_Backend --> 02_Architecture
+    04_Backend --> 05_Engineering
+    05_Engineering --> 02_Architecture
+    05_Engineering --> 10_Playbooks
+    05_Engineering --> 14_Knowledge_Platform
+    06_Domains --> 07_Knowledge
+    06_Domains --> 13_Research
+    06_Domains --> 12_Roadmap
+    07_Knowledge --> 06_Domains
+    07_Knowledge --> 13_Research
+    07_Knowledge --> 08_AI
+    08_AI --> 07_Knowledge
+    08_AI --> 11_ADRs
+    08_AI --> 13_Research
+    09_Templates --> 10_Playbooks
+    09_Templates --> 11_ADRs
+    10_Playbooks --> 05_Engineering
+    10_Playbooks --> 09_Templates
+    11_ADRs --> 00_Foundation
+    11_ADRs --> 02_Architecture
+    11_ADRs --> 12_Roadmap
+    12_Roadmap --> 11_ADRs
+    12_Roadmap --> 13_Research
+    12_Roadmap --> 06_Domains
+    13_Research --> 07_Knowledge
+    13_Research --> 12_Roadmap
+    13_Research --> 11_ADRs
+    14_Knowledge_Platform --> 00_Foundation
+    14_Knowledge_Platform --> 11_ADRs
+    14_Knowledge_Platform --> 12_Roadmap
+    14_Knowledge_Platform --> 13_Research
+```

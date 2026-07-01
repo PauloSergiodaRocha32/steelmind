@@ -10,17 +10,21 @@
 
 | Document | Scope |
 |----------|-------|
+| [CONSTITUTION.md](./CONSTITUTION.md) | Supreme authority for architecture and product-engineering decisions |
 | [PRODUCT_VISION.md](./PRODUCT_VISION.md) | Why SteelMind exists, product philosophy, domain boundaries |
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | System design, DDD, folder structure, events, API, scalability |
 | [CODING_STANDARDS.md](./CODING_STANDARDS.md) | Code style, naming, components, Git, PRs, branches |
 | [ROADMAP.md](./ROADMAP.md) | Phased delivery plan (infrastructure & platform, not features) |
+| [adr/README.md](./adr/README.md) | Architecture Decision Records index |
 
 **Read order for new contributors and AI agents:**
 
-1. PRODUCT_VISION → understand intent and boundaries
-2. ARCHITECTURE → understand structure and patterns
-3. CODING_STANDARDS → understand how to write code
-4. ROADMAP → understand what to build next and what to defer
+1. CONSTITUTION → non-negotiable engineering and domain rules
+2. PRODUCT_VISION → understand intent and boundaries
+3. ARCHITECTURE → understand structure and patterns
+4. CODING_STANDARDS → understand how to write code
+5. ROADMAP → understand what to build next and what to defer
+6. ADR index → confirm accepted structural decisions
 
 ---
 
@@ -138,10 +142,11 @@ Each context is implemented as a **module** under `modules/<context>/`. Contexts
 Significant decisions (new library, pattern change, boundary shift) must be recorded as:
 
 ```
-docs/adr/NNNN-short-title.md
+docs/adr/ADR-XXX-short-title.md
 ```
 
 Use sequential numbering. ADRs are immutable once accepted; supersede with a new ADR.
+Constitution-level changes require explicit ADR updates.
 
 ### 7.2 Changing These Documents
 
@@ -158,7 +163,7 @@ When an AI agent is tasked with SteelMind work, it **must**:
 
 1. Read relevant docs before writing code
 2. Stay within the requested bounded context
-3. Not create files outside the folder structure defined in [ARCHITECTURE.md](./ARCHITECTURE.md)
+3. Respect constitutional boundaries and ADR decisions before introducing structural changes
 4. Not implement features listed as out-of-scope in [ROADMAP.md](./ROADMAP.md) unless explicitly requested
 5. Follow [CODING_STANDARDS.md](./CODING_STANDARDS.md) for naming, Git, and PR format
 6. Prefer extending existing patterns over introducing new abstractions
@@ -176,12 +181,10 @@ When an AI agent **must stop and ask**:
 
 The following are explicitly **out of scope** unless a future roadmap phase or explicit user request says otherwise:
 
-- Authentication and authorization implementation
-- Database schema and persistence layer
-- Business feature logic (CRUD, workflows, calculations)
+- Any implementation that violates `docs/CONSTITUTION.md`
 - Third-party payment or billing integration
 - Mobile native applications
-- Multi-tenancy implementation (design for it; do not build yet)
+- Technical shortcuts that compromise traceability and auditability
 
 ---
 

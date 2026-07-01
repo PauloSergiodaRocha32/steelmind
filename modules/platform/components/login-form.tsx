@@ -90,6 +90,8 @@ export function LoginForm() {
               <li>almoxarifado@inglesametais.com · almox123</li>
               <li>compras@inglesametais.com · compras123</li>
               <li>engenharia@inglesametais.com · eng123</li>
+              <li>gerente@inglesametais.com · gerente123</li>
+              <li>viewer@inglesametais.com · viewer123</li>
             </ul>
           </div>
         </CardContent>

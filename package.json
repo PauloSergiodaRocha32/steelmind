@@ -3,13 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "gestio:sync": "tsx scripts/gestio-sync.ts",
     "gestio:classify": "tsx scripts/gestio-sync.ts --classify",
-    "gestio:classify:apply": "tsx scripts/gestio-sync.ts --classify --apply"
+    "gestio:classify:apply": "tsx scripts/gestio-sync.ts --classify --apply",
+    "audit": "tsx scripts/audit-ecosystem.ts",
+    "agents:run": "tsx scripts/agents/cloud-orchestrator.ts",
+    "demo:browser": "tsx scripts/browser-walkthrough.ts",
+    "demo:project": "tsx scripts/demo-project-cli.ts",
+    "bible:init": "tsx scripts/create-engineering-bible.ts && npm run bible:seed && npm run bible:index",
+    "bible:seed": "tsx scripts/seed-engineering-bible-content.ts",
+    "bible:index": "tsx scripts/update-engineering-bible-indexes.ts",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "quality:gate": "npm run lint && npm run test:coverage && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -44,11 +54,14 @@
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.4",
     "@types/react-dom": "^19.0.2",
+    "@vitest/coverage-v8": "^4.1.9",
     "eslint": "^9.18.0",
     "eslint-config-next": "^15.1.6",
+    "playwright": "^1.61.1",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^4.1.9"
   }
 }

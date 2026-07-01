@@ -4,19 +4,30 @@ import { getStore, savePurchaseRequisition } from "@/lib/persistence/store";
 import { loadGestioCatalog } from "@/modules/warehouse/application/load-catalog";
 import { buildStockOverview } from "@/modules/warehouse/application/queries/stock-overview";
 import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
+import type { GestioRequisicaoCompra } from "@/types/gestio-extended";
 
 export async function GET() {
   const auth = await requirePermission("purchasing:read");
   if (isAuthError(auth)) return auth;
 
   try {
-    const client = createGestioClient();
-    await client.authenticate();
-    const [abertas, encerradas, store] = await Promise.all([
-      client.getRequisicoesCompraAbertas(),
-      client.getRequisicoesCompraEncerradas(),
-      getStore(),
-    ]);
+    const store = await getStore();
+    let abertas: GestioRequisicaoCompra[] = [];
+    let encerradas: GestioRequisicaoCompra[] = [];
+    let gestioAvailable = false;
+
+    try {
+      const client = createGestioClient();
+      await client.authenticate();
+      [abertas, encerradas] = await Promise.all([
+        client.getRequisicoesCompraAbertas(),
+        client.getRequisicoesCompraEncerradas(),
+      ]);
+      gestioAvailable = true;
+    } catch {
+      abertas = [];
+      encerradas = [];
+    }
 
     const catalog = loadGestioCatalog();
     const alertas = catalog
@@ -30,6 +41,10 @@ export async function GET() {
         localRequisitions: store.purchaseRequisitions,
         stockAlertas: alertas,
         backend: store.backend,
+        source: gestioAvailable ? "gestio+local" : "local",
+        warning: gestioAvailable
+          ? null
+          : "Gestio indisponível no momento; exibindo dados locais de compras.",
       },
     });
   } catch (error) {
