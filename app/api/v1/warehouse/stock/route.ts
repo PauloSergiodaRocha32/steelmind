@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import { loadGestioCatalog } from "@/modules/warehouse/application/load-catalog";
-import { buildCatalogTree } from "@/modules/warehouse/application/queries/build-catalog-tree";
+import { buildStockOverview } from "@/modules/warehouse/application/queries/stock-overview";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const material = searchParams.get("material");
   const filial = searchParams.get("filial");
 
   const catalog = loadGestioCatalog();
@@ -20,17 +19,10 @@ export async function GET(request: Request) {
     );
   }
 
-  const directory = buildCatalogTree(catalog, {
-    material,
-    filial: filial ? Number(filial) : null,
-  });
+  const overview = buildStockOverview(
+    catalog,
+    filial ? Number(filial) : null,
+  );
 
-  return NextResponse.json({
-    data: {
-      syncedAt: catalog.syncedAt,
-      stats: catalog.stats,
-      filiais: catalog.filiais,
-      directory,
-    },
-  });
+  return NextResponse.json({ data: overview });
 }

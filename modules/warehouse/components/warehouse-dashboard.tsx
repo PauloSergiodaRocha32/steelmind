@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Building2,
   Layers,
   Package,
   RefreshCw,
+  Search,
   Warehouse,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,16 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import type { WarehouseCatalogResponse } from "@/modules/warehouse/types/catalog";
+import { ProductSearchPanel } from "@/modules/warehouse/components/product-search-panel";
+import { StockOverviewPanel } from "@/modules/warehouse/components/stock-overview-panel";
+import { ProductRow } from "@/modules/warehouse/components/product-row";
+import {
+  useStockOverview,
+  useWarehouseCatalog,
+  useWarehouseSearch,
+} from "@/modules/warehouse/hooks/use-warehouse-catalog";
+
+type TabId = "catalogo" | "busca" | "estoque";
 
 function StatCard({
   label,
@@ -39,51 +49,47 @@ function StatCard({
   );
 }
 
+const TABS: Array<{ id: TabId; label: string; icon: React.ComponentType<{ className?: string }> }> = [
+  { id: "catalogo", label: "Catálogo", icon: Layers },
+  { id: "busca", label: "Busca", icon: Search },
+  { id: "estoque", label: "Estoque", icon: Warehouse },
+];
+
 export function WarehouseDashboard() {
-  const [catalog, setCatalog] = useState<WarehouseCatalogResponse | null>(
-    null,
-  );
-  const [loading, setLoading] = useState(true);
+  const [filial, setFilial] = useState<number | null>(null);
+  const [tab, setTab] = useState<TabId>("catalogo");
+  const [searchQuery, setSearchQuery] = useState("");
   const [syncing, setSyncing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
 
-  const loadCatalog = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/v1/warehouse/catalog");
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json.error?.message ?? "Falha ao carregar catálogo");
-      }
-      setCatalog(json.data);
-      if (!selectedMaterial && json.data.directory?.[0]) {
-        setSelectedMaterial(json.data.directory[0].material);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro desconhecido");
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedMaterial]);
+  const { catalog, loading, error, reload } = useWarehouseCatalog(filial);
+  const { results, loading: searchLoading } = useWarehouseSearch(
+    searchQuery,
+    filial,
+    tab === "busca",
+  );
+  const { stock, loading: stockLoading } = useStockOverview(
+    filial,
+    tab === "estoque",
+  );
 
   useEffect(() => {
-    void loadCatalog();
-  }, [loadCatalog]);
+    if (catalog?.directory[0] && !selectedMaterial) {
+      setSelectedMaterial(catalog.directory[0].material);
+    }
+  }, [catalog, selectedMaterial]);
 
   const handleSync = async () => {
     setSyncing(true);
-    setError(null);
     try {
       const res = await fetch("/api/v1/warehouse/sync", { method: "POST" });
-      const json = await res.json();
       if (!res.ok) {
+        const json = await res.json();
         throw new Error(json.error?.message ?? "Falha na sincronização");
       }
-      await loadCatalog();
+      await reload();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro na sincronização");
+      console.error(err);
     } finally {
       setSyncing(false);
     }
@@ -101,31 +107,45 @@ export function WarehouseDashboard() {
             <div key={i} className="h-24 rounded-xl bg-muted/30" />
           ))}
         </div>
-        <div className="h-96 rounded-xl bg-muted/20" />
       </div>
     );
   }
 
   return (
     <div className="animate-fade-in space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-sm text-muted-foreground">
-            Integração Gestio → SteelMind · Almoxarifado unificado
+            Gestio → SteelMind · Almoxarifado unificado
           </p>
           {catalog?.syncedAt && (
             <p className="text-xs text-muted-foreground/80">
-              Última sync:{" "}
-              {new Date(catalog.syncedAt).toLocaleString("pt-BR")}
+              Última sync: {new Date(catalog.syncedAt).toLocaleString("pt-BR")}
             </p>
           )}
         </div>
-        <Button onClick={handleSync} disabled={syncing} size="sm">
-          <RefreshCw
-            className={cn("mr-2 h-4 w-4", syncing && "animate-spin")}
-          />
-          {syncing ? "Sincronizando..." : "Sincronizar Gestio"}
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={filial ?? ""}
+            onChange={(e) =>
+              setFilial(e.target.value ? Number(e.target.value) : null)
+            }
+            className="h-9 rounded-md border border-input bg-background px-3 text-sm"
+          >
+            <option value="">Todas as filiais</option>
+            {catalog?.filiais.map((f) => (
+              <option key={f.codigoDaFilial} value={f.codigoDaFilial}>
+                Filial {f.codigoDaFilial} — {f.nomeFantasia}
+              </option>
+            ))}
+          </select>
+          <Button onClick={handleSync} disabled={syncing} size="sm">
+            <RefreshCw
+              className={cn("mr-2 h-4 w-4", syncing && "animate-spin")}
+            />
+            {syncing ? "Sincronizando..." : "Sincronizar"}
+          </Button>
+        </div>
       </div>
 
       {error && (
@@ -137,141 +157,132 @@ export function WarehouseDashboard() {
       {catalog && (
         <>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <StatCard
-              label="Produtos"
-              value={catalog.stats.totalProdutos}
-              icon={Package}
-            />
-            <StatCard
-              label="Classificados"
-              value={catalog.stats.produtosClassificados}
-              icon={Layers}
-            />
-            <StatCard
-              label="Filiais"
-              value={catalog.stats.filiais}
-              icon={Building2}
-            />
-            <StatCard
-              label="Com saldo"
-              value={catalog.stats.saldosComQuantidade}
-              icon={Warehouse}
-            />
+            <StatCard label="Produtos" value={catalog.stats.totalProdutos} icon={Package} />
+            <StatCard label="Classificados" value={catalog.stats.produtosClassificados} icon={Layers} />
+            <StatCard label="Filiais" value={catalog.stats.filiais} icon={Building2} />
+            <StatCard label="Com saldo" value={catalog.stats.saldosComQuantidade} icon={Warehouse} />
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-12">
-            <Card className="border-border/50 bg-card/40 lg:col-span-4">
-              <CardHeader>
-                <CardTitle className="text-base">Materiais</CardTitle>
-              </CardHeader>
-              <CardContent className="p-0">
-                <ScrollArea className="h-[420px]">
-                  <div className="space-y-1 p-4 pt-0">
-                    {catalog.directory.map((node) => (
-                      <button
-                        key={node.material}
-                        type="button"
-                        onClick={() => setSelectedMaterial(node.material)}
-                        className={cn(
-                          "flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-sm transition-colors",
-                          selectedMaterial === node.material
-                            ? "bg-primary/10 text-primary"
-                            : "hover:bg-muted/50",
-                        )}
-                      >
-                        <span className="font-medium">{node.material}</span>
-                        <Badge variant="secondary" className="tabular-nums">
-                          {node.totalProdutos}
-                        </Badge>
-                      </button>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </CardContent>
-            </Card>
+          <div className="flex gap-1 rounded-lg border border-border/50 bg-muted/20 p-1">
+            {TABS.map(({ id, label, icon: Icon }) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setTab(id)}
+                className={cn(
+                  "flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  tab === id
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                <Icon className="h-4 w-4" />
+                {label}
+              </button>
+            ))}
+          </div>
 
-            <Card className="border-border/50 bg-card/40 lg:col-span-8">
-              <CardHeader>
-                <CardTitle className="text-base">
-                  {selectedNode?.material ?? "Selecione um material"}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-[380px]">
-                  {selectedNode ? (
-                    <div className="space-y-6 pr-4">
-                      {selectedNode.categorias.map((cat) => (
-                        <div key={cat.categoria}>
-                          <div className="mb-2 flex items-center gap-2">
-                            <h3 className="text-sm font-semibold">
-                              {cat.categoria}
-                            </h3>
-                            <Badge variant="outline">{cat.count}</Badge>
-                          </div>
-                          <div className="space-y-1">
-                            {cat.produtos.slice(0, 8).map((p) => (
-                              <div
-                                key={p.idProd}
-                                className="flex items-start justify-between gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted/30"
-                              >
-                                <div className="min-w-0">
-                                  <span className="font-mono text-xs text-muted-foreground">
-                                    {p.codigo ?? "—"}
-                                  </span>
-                                  <p className="truncate">{p.descricao}</p>
-                                </div>
-                                {Object.keys(p.saldoPorFilial).length > 0 && (
-                                  <Badge className="shrink-0">
-                                    {Object.values(p.saldoPorFilial).reduce(
-                                      (a, b) => a + b,
-                                      0,
-                                    )}{" "}
-                                    un
-                                  </Badge>
-                                )}
-                              </div>
-                            ))}
-                            {cat.count > 8 && (
-                              <p className="px-2 text-xs text-muted-foreground">
-                                +{cat.count - 8} produtos
-                              </p>
-                            )}
-                          </div>
-                        </div>
+          {tab === "catalogo" && (
+            <div className="grid gap-4 lg:grid-cols-12">
+              <Card className="border-border/50 bg-card/40 lg:col-span-4">
+                <CardHeader>
+                  <CardTitle className="text-base">Materiais</CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <ScrollArea className="h-[420px]">
+                    <div className="space-y-1 p-4 pt-0">
+                      {catalog.directory.map((node) => (
+                        <button
+                          key={node.material}
+                          type="button"
+                          onClick={() => setSelectedMaterial(node.material)}
+                          className={cn(
+                            "flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-sm transition-colors",
+                            selectedMaterial === node.material
+                              ? "bg-primary/10 text-primary"
+                              : "hover:bg-muted/50",
+                          )}
+                        >
+                          <span className="font-medium">{node.material}</span>
+                          <Badge variant="secondary">{node.totalProdutos}</Badge>
+                        </button>
                       ))}
                     </div>
-                  ) : (
-                    <p className="text-sm text-muted-foreground">
-                      Nenhum material selecionado.
-                    </p>
-                  )}
-                </ScrollArea>
-              </CardContent>
-            </Card>
-          </div>
+                  </ScrollArea>
+                </CardContent>
+              </Card>
 
-          <Card className="border-border/50 bg-card/40">
-            <CardHeader>
-              <CardTitle className="text-base">Filiais integradas</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {catalog.filiais.map((f) => (
-                  <div
-                    key={f.codigoDaFilial}
-                    className="rounded-lg border border-border/40 px-4 py-3"
-                  >
-                    <p className="text-xs text-muted-foreground">
-                      Filial {f.codigoDaFilial}
-                    </p>
-                    <p className="text-sm font-medium leading-snug">
-                      {f.nomeFantasia}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+              <Card className="border-border/50 bg-card/40 lg:col-span-8">
+                <CardHeader>
+                  <CardTitle className="text-base">
+                    {selectedNode?.material ?? "Selecione um material"}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ScrollArea className="h-[380px]">
+                    {selectedNode ? (
+                      <div className="space-y-6 pr-4">
+                        {selectedNode.categorias.map((cat) => (
+                          <div key={cat.categoria}>
+                            <div className="mb-2 flex items-center gap-2">
+                              <h3 className="text-sm font-semibold">{cat.categoria}</h3>
+                              <Badge variant="outline">{cat.count}</Badge>
+                            </div>
+                            <div>
+                              {cat.produtos.map((p) => (
+                                <ProductRow
+                                  key={p.idProd}
+                                  product={{
+                                    idProd: p.idProd,
+                                    codigo: p.codigo,
+                                    descricao: p.descricao,
+                                    material: selectedNode.material,
+                                    categoria: cat.categoria,
+                                    tipo: "—",
+                                    unidade: null,
+                                    estoqueMinimo: 0,
+                                    estoqueMaximo: 0,
+                                    saldoPorFilial: p.saldoPorFilial,
+                                    saldoTotal: Object.values(p.saldoPorFilial).reduce(
+                                      (a, b) => a + b,
+                                      0,
+                                    ),
+                                    abaixoDoMinimo: false,
+                                  }}
+                                />
+                              ))}
+                              {cat.count > cat.produtos.length && (
+                                <p className="px-2 text-xs text-muted-foreground">
+                                  +{cat.count - cat.produtos.length} produtos — use Busca
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">
+                        Selecione um material à esquerda.
+                      </p>
+                    )}
+                  </ScrollArea>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {tab === "busca" && (
+            <ProductSearchPanel
+              query={searchQuery}
+              onQueryChange={setSearchQuery}
+              results={results}
+              loading={searchLoading}
+            />
+          )}
+
+          {tab === "estoque" && (
+            <StockOverviewPanel stock={stock} loading={stockLoading} />
+          )}
         </>
       )}
     </div>
