@@ -513,7 +513,7 @@ Before merging, verify:
 
 ## 14. Related Documents
 
-- [architecture.md](./architecture.md) — Shadow mode, calibration, benchmark, and accuracy addendum
+- [ARCHITECTURE_ADDENDUM.md](./ARCHITECTURE_ADDENDUM.md) — Shadow mode, calibration, benchmark, and accuracy addendum
 - [MASTERPLAN.md](./MASTERPLAN.md) — governance and document map
 - [PRODUCT_VISION.md](./PRODUCT_VISION.md) — domain boundaries and ubiquitous language
 - [CODING_STANDARDS.md](./CODING_STANDARDS.md) — implementation conventions
