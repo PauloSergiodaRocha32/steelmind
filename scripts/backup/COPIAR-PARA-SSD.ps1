@@ -1,7 +1,7 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-  Baixa o backup completo do SteelMind e copia para \\Paulo\projeto api
+  Baixa o backup completo do SteelMind e copia para D:\PROJETO API
 
 .USAGE
   Clique direito -> Executar com PowerShell
@@ -11,7 +11,7 @@
 
 $ErrorActionPreference = "Stop"
 
-$DestinoRaiz = "\\Paulo\projeto api"
+$DestinoRaiz = "D:\PROJETO API"
 $Destino     = Join-Path $DestinoRaiz "steelmind-backup-2026-07-01"
 $ReleaseUrl  = "https://github.com/PauloSergiodaRocha32/steelmind/releases/download/backup-2026-07-01/steelmind-backup-completo-2026-07-01.tar.gz"
 $TempDir     = Join-Path $env:TEMP "steelmind-backup-tmp"
@@ -23,15 +23,16 @@ Write-Host "Destino: $Destino"
 Write-Host ""
 
 # 1) Verificar SSD
-if (-not (Test-Path $DestinoRaiz)) {
-    Write-Host "ERRO: '$DestinoRaiz' nao encontrado." -ForegroundColor Red
-    Write-Host ""
-    Write-Host "Verifique:" -ForegroundColor Yellow
-    Write-Host "  1. SSD externo conectado"
-    Write-Host "  2. Pasta compartilhada como 'Paulo' (ou ajuste DestinoRaiz no script)"
-    Write-Host "  3. No Explorer, teste abrir: $DestinoRaiz"
+if (-not (Test-Path "D:\")) {
+    Write-Host "ERRO: Unidade D: nao encontrada." -ForegroundColor Red
+    Write-Host "Conecte o SSD externo e tente novamente." -ForegroundColor Yellow
     Read-Host "Pressione Enter para sair"
     exit 1
+}
+
+if (-not (Test-Path $DestinoRaiz)) {
+    Write-Host "Criando pasta: $DestinoRaiz" -ForegroundColor Yellow
+    New-Item -ItemType Directory -Force -Path $DestinoRaiz | Out-Null
 }
 
 # 2) Baixar backup
