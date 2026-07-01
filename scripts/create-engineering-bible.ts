@@ -120,6 +120,30 @@ const tree: Record<string, string[]> = {
     "Incident.md",
     "ProductionIssue.md",
   ],
+
+  "11-ADRs": [
+    "ADR-Index.md",
+    "Accepted.md",
+    "Proposed.md",
+    "Deprecated.md",
+    "Superseded.md",
+  ],
+
+  "12-Roadmap": [
+    "MasterRoadmap.md",
+    "QuarterlyPlan.md",
+    "Milestones.md",
+    "Dependencies.md",
+    "RiskRegister.md",
+  ],
+
+  "13-Research": [
+    "MarketResearch.md",
+    "CompetitorAnalysis.md",
+    "TechnicalResearch.md",
+    "Hypotheses.md",
+    "ValidationNotes.md",
+  ],
 };
 
 function ensure(dir: string) {
