@@ -10,7 +10,8 @@
     "gestio:sync": "tsx scripts/gestio-sync.ts",
     "gestio:classify": "tsx scripts/gestio-sync.ts --classify",
     "gestio:classify:apply": "tsx scripts/gestio-sync.ts --classify --apply",
-    "audit": "tsx scripts/audit-ecosystem.ts"
+    "audit": "tsx scripts/audit-ecosystem.ts",
+    "agents:run": "tsx scripts/agents/cloud-orchestrator.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
