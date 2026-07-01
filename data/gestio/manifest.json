@@ -1,0 +1,31 @@
+{
+  "syncedAt": "2026-07-01T07:07:30.369Z",
+  "empresa": "INGLESA METAIS SERRALHERIA LTDA",
+  "stats": {
+    "totalProdutos": 2276,
+    "produtosClassificados": 2276,
+    "produtosSemClassificacao": 0,
+    "saldosComQuantidade": 2,
+    "filiais": 3
+  },
+  "filiais": [
+    {
+      "codigo": 1,
+      "nome": "INGLESA METAIS SERRALHERIA LTDA",
+      "cnpj": "36.516.595/0001-80"
+    },
+    {
+      "codigo": 2,
+      "nome": "INGLESA METAIS SOLUCOES LTDA",
+      "cnpj": "49.919.240/0001-83"
+    },
+    {
+      "codigo": 3,
+      "nome": "IM COMERCIO E SERVICOS LTDA",
+      "cnpj": "66.249.422/0001-03"
+    }
+  ],
+  "grupos": 13,
+  "categorias": 34,
+  "classificaveis": 0
+}

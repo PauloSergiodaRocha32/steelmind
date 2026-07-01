@@ -11,6 +11,7 @@ export const NAV_GROUPS = [
       { title: "Engineering", href: "/engineering", icon: "Wrench" as const },
       { title: "Budget", href: "/budget", icon: "PieChart" as const },
       { title: "Production", href: "/production", icon: "Factory" as const },
+      { title: "Almoxarifado", href: "/warehouse", icon: "Warehouse" as const },
       { title: "Purchasing", href: "/purchasing", icon: "ShoppingCart" as const },
     ],
   },
@@ -34,6 +35,7 @@ export type NavIcon =
   | "PieChart"
   | "Factory"
   | "ShoppingCart"
+  | "Warehouse"
   | "BookOpen"
   | "Sparkles"
   | "Settings";
@@ -44,9 +46,20 @@ export type NavItem = {
   icon: NavIcon;
 };
 
+function toNavItems(
+  items: ReadonlyArray<{ title: string; href: string; icon: string }>,
+): NavItem[] {
+  return items.map((item) => ({
+    title: item.title,
+    href: item.href,
+    icon: item.icon as NavIcon,
+  }));
+}
+
 export const ALL_NAV_ITEMS: NavItem[] = [
-  ...NAV_GROUPS.flatMap((group) => group.items),
-  ...NAV_FOOTER_ITEMS,
+  ...toNavItems(NAV_GROUPS[0].items),
+  ...toNavItems(NAV_GROUPS[1].items),
+  ...toNavItems(NAV_FOOTER_ITEMS),
 ];
 
 export function getPageTitle(pathname: string): string {

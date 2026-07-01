@@ -32,6 +32,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# gestio sync output (large catalog snapshot)
+/data/gestio/catalog.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
