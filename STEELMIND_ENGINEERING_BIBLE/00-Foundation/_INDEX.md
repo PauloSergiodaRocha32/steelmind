@@ -1,6 +1,12 @@
 # 00-Foundation — Índice
 
+Breadcrumb: [HOME](../HOME.md) > [Índice Global](../_INDEX.md) > 00-Foundation
+
 Arquivo gerado automaticamente por `npm run bible:index`.
+
+**Propósito da seção:** Missão, visão, constituição e princípios-base
+**Público principal:** Todos
+**Seções relacionadas:** [01-Product](../01-Product/_INDEX.md), [02-Architecture](../02-Architecture/_INDEX.md), [11-ADRs](../11-ADRs/_INDEX.md)
 
 | Documento | Título |
 |-----------|--------|

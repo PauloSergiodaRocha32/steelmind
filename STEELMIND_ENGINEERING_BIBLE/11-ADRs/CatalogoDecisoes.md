@@ -13,3 +13,4 @@ Consolidar visão executiva das decisões já aceitas e seus impactos diretos na
 | ACL Gestio | lock-in de ERP | domínio canônico e extensível |
 | Knowledge Base + Rule Engine | regra hardcoded | versionamento e auditoria |
 | Bible navegável | baixa encontrabilidade | onboarding e operação de conhecimento |
+| Knowledge Platform enterprise | crescimento desorganizado da wiki | descoberta rápida e governança de longo prazo |

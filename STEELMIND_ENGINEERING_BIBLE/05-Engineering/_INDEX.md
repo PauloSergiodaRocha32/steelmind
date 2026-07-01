@@ -1,6 +1,12 @@
 # 05-Engineering — Índice
 
+Breadcrumb: [HOME](../HOME.md) > [Índice Global](../_INDEX.md) > 05-Engineering
+
 Arquivo gerado automaticamente por `npm run bible:index`.
+
+**Propósito da seção:** Padrões de engenharia, testes, CI/CD e release
+**Público principal:** Desenvolvimento, DevOps, QA
+**Seções relacionadas:** [02-Architecture](../02-Architecture/_INDEX.md), [10-Playbooks](../10-Playbooks/_INDEX.md), [14-Knowledge-Platform](../14-Knowledge-Platform/_INDEX.md)
 
 | Documento | Título |
 |-----------|--------|

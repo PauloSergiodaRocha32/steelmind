@@ -1,6 +1,12 @@
 # 06-Domains — Índice
 
+Breadcrumb: [HOME](../HOME.md) > [Índice Global](../_INDEX.md) > 06-Domains
+
 Arquivo gerado automaticamente por `npm run bible:index`.
+
+**Propósito da seção:** Conhecimento dos domínios de negócio do produto
+**Público principal:** Engenharia, Comercial, Produto
+**Seções relacionadas:** [07-Knowledge](../07-Knowledge/_INDEX.md), [13-Research](../13-Research/_INDEX.md), [12-Roadmap](../12-Roadmap/_INDEX.md)
 
 | Documento | Título |
 |-----------|--------|

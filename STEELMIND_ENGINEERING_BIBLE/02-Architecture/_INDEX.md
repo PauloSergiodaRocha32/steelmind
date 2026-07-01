@@ -1,6 +1,12 @@
 # 02-Architecture — Índice
 
+Breadcrumb: [HOME](../HOME.md) > [Índice Global](../_INDEX.md) > 02-Architecture
+
 Arquivo gerado automaticamente por `npm run bible:index`.
+
+**Propósito da seção:** Estrutura técnica e boundaries do sistema
+**Público principal:** Arquitetura, Desenvolvimento
+**Seções relacionadas:** [11-ADRs](../11-ADRs/_INDEX.md), [04-Backend](../04-Backend/_INDEX.md), [06-Domains](../06-Domains/_INDEX.md)
 
 | Documento | Título |
 |-----------|--------|

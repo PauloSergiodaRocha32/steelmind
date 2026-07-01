@@ -1,6 +1,12 @@
 # 04-Backend — Índice
 
+Breadcrumb: [HOME](../HOME.md) > [Índice Global](../_INDEX.md) > 04-Backend
+
 Arquivo gerado automaticamente por `npm run bible:index`.
+
+**Propósito da seção:** APIs, autenticação, persistência e performance
+**Público principal:** Backend, Arquitetura
+**Seções relacionadas:** [02-Architecture](../02-Architecture/_INDEX.md), [05-Engineering](../05-Engineering/_INDEX.md)
 
 | Documento | Título |
 |-----------|--------|

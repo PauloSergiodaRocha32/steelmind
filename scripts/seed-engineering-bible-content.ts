@@ -4,6 +4,66 @@ import path from "node:path";
 const ROOT = "STEELMIND_ENGINEERING_BIBLE";
 
 const docs: Record<string, string> = {
+  "HOME.md": `# SteelMind Knowledge Platform
+
+## Por que esta plataforma existe
+
+A SteelMind Knowledge Platform é a fonte oficial de verdade do projeto. Ela conecta estratégia, arquitetura, produto, engenharia, operação e pesquisa em uma única base navegável.
+
+## Entradas rápidas por perfil
+
+- **Novo desenvolvedor**: [00-Foundation/_INDEX.md](00-Foundation/_INDEX.md) -> [02-Architecture/_INDEX.md](02-Architecture/_INDEX.md) -> [14-Knowledge-Platform/OnboardingJourneys.md](14-Knowledge-Platform/OnboardingJourneys.md)
+- **Arquitetura**: [11-ADRs/_INDEX.md](11-ADRs/_INDEX.md) -> [14-Knowledge-Platform/PlatformArchitecture.md](14-Knowledge-Platform/PlatformArchitecture.md)
+- **Produto/Comercial**: [01-Product/_INDEX.md](01-Product/_INDEX.md) -> [12-Roadmap/MasterRoadmap.md](12-Roadmap/MasterRoadmap.md)
+- **Pesquisa/Normas**: [13-Research/_INDEX.md](13-Research/_INDEX.md) -> [13-Research/NormasXFuncionalidades.md](13-Research/NormasXFuncionalidades.md)
+- **IA e conhecimento técnico**: [08-AI/_INDEX.md](08-AI/_INDEX.md) -> [07-Knowledge/_INDEX.md](07-Knowledge/_INDEX.md)
+
+## Núcleo da navegação
+
+- Índice global: [_INDEX.md](_INDEX.md)
+- Arquitetura da plataforma: [14-Knowledge-Platform/README.md](14-Knowledge-Platform/README.md)
+- Catálogo central: [14-Knowledge-Platform/CatalogHub.md](14-Knowledge-Platform/CatalogHub.md)
+- Governança de contribuição: [ContribuindoNaBible.md](ContribuindoNaBible.md)
+
+## Princípios operacionais
+
+1. Conhecimento é produto, não anexo
+2. Evitar duplicação; priorizar links cruzados
+3. Toda decisão relevante precisa de ADR
+4. Documentação deve evoluir junto com código
+`,
+
+  "ContribuindoNaBible.md": `# Contribuindo na Engineering Bible
+
+## Objetivo
+
+Garantir que mudanças na base de conhecimento sejam consistentes, rastreáveis e sustentáveis.
+
+## Fluxo de contribuição
+
+1. Identificar lacuna ou inconsistência
+2. Atualizar documento fonte (evitar duplicação)
+3. Criar/atualizar links relacionados
+4. Rodar automações:
+   - \`npm run bible:seed\`
+   - \`npm run bible:index\`
+5. Se houver decisão estrutural, registrar ADR
+
+## Padrões mínimos por documento novo
+
+- contexto e problema resolvido
+- público alvo
+- dependências/documentos relacionados
+- ADRs e pesquisas relacionadas (quando aplicável)
+- ação recomendada para próximo ciclo
+
+## Critérios de aceite
+
+- sem navegação quebrada
+- sem criação de conteúdo duplicado
+- clareza suficiente para onboarding
+`,
+
   "00-Foundation/07-BibleQualityReview.md": `# Bible Quality Review
 
 ## Objetivo
@@ -290,6 +350,37 @@ Transformar a Engineering Bible em base navegável:
 - Introduz manutenção adicional em automações de documentação
 `,
 
+  "11-ADRs/ADR-007-Knowledge-Platform-Enterprise.md": `# ADR-007: Knowledge Platform enterprise com taxonomia e descoberta
+
+- Status: Accepted
+- Data: 2026-07-01
+
+## Contexto
+
+Uma wiki sem arquitetura de informação tende a crescer com redundâncias e baixa capacidade de busca.
+
+## Decisão
+
+Evoluir a Engineering Bible para plataforma de conhecimento com:
+
+- taxonomia explícita por domínio e audiência
+- trilhas de navegação por perfil
+- catálogo central sem duplicação
+- dashboard automático de qualidade documental
+- grafo de relacionamentos entre seções
+
+## Consequências
+
+### Positivas
+- onboarding mais rápido
+- melhor recuperação semântica para IA
+- governança de conteúdo escalável
+
+### Negativas
+- aumento de disciplina operacional da documentação
+- necessidade de revisão periódica de taxonomia
+`,
+
   "11-ADRs/Accepted.md": `# ADRs Aceitas
 
 | ADR | Título | Status |
@@ -301,6 +392,7 @@ Transformar a Engineering Bible em base navegável:
 | [ADR-004-ACL-Gestio](ADR-004-ACL-Gestio.md) | ACL Gestio | Accepted |
 | [ADR-005-Knowledge-Base-Rule-Engine](ADR-005-Knowledge-Base-Rule-Engine.md) | Knowledge Base + Rule Engine | Accepted |
 | [ADR-006-Bible-Navegavel](ADR-006-Bible-Navegavel.md) | Bible navegável e operacional | Accepted |
+| [ADR-007-Knowledge-Platform-Enterprise](ADR-007-Knowledge-Platform-Enterprise.md) | Knowledge Platform enterprise | Accepted |
 `,
 
   "11-ADRs/CatalogoDecisoes.md": `# Catálogo de decisões arquiteturais
@@ -318,6 +410,7 @@ Consolidar visão executiva das decisões já aceitas e seus impactos diretos na
 | ACL Gestio | lock-in de ERP | domínio canônico e extensível |
 | Knowledge Base + Rule Engine | regra hardcoded | versionamento e auditoria |
 | Bible navegável | baixa encontrabilidade | onboarding e operação de conhecimento |
+| Knowledge Platform enterprise | crescimento desorganizado da wiki | descoberta rápida e governança de longo prazo |
 `,
 
   "11-ADRs/Proposed.md": `# ADRs Propostas
@@ -724,6 +817,194 @@ Relacionar funcionalidades críticas do produto às referências normativas e re
 ## Próximo passo
 
 Expandir matriz por domínio (escadas, pergolados, portões, corrimãos, coberturas).
+`,
+
+  "14-Knowledge-Platform/README.md": `# 14-Knowledge-Platform
+
+## Objetivo
+
+Definir a arquitetura da plataforma oficial de conhecimento do SteelMind como wiki enterprise.
+
+## Escopo
+
+- arquitetura da informação
+- navegação e descoberta
+- catálogos cross-domain
+- trilhas de onboarding
+- governança de contribuição
+- dashboards de qualidade documental
+
+## Como usar esta seção
+
+1. Ler [PlatformArchitecture.md](PlatformArchitecture.md)
+2. Entender taxonomia em [InformationTaxonomy.md](InformationTaxonomy.md)
+3. Navegar com [NavigationAndDiscovery.md](NavigationAndDiscovery.md)
+4. Consultar catálogos em [CatalogHub.md](CatalogHub.md)
+`,
+
+  "14-Knowledge-Platform/PlatformArchitecture.md": `# Platform Architecture
+
+## Problema
+
+Sem arquitetura explícita, a documentação vira acervo disperso e difícil de manter.
+
+## Solução adotada
+
+A Knowledge Platform segue três camadas:
+
+1. **Foundation Layer**: visão, princípios e glossário (seção 00)
+2. **Domain Knowledge Layer**: produto, arquitetura, engenharia, domínios, IA, pesquisa (seções 01-13)
+3. **Navigation Layer**: índices automáticos, catálogos, trilhas e dashboards (seção 14)
+
+## Mecanismos de sustentabilidade
+
+- geração automática de índices
+- inventário de conhecimento com sinalização de lacunas
+- catálogo central para evitar duplicação
+- governança de contribuição em ciclo contínuo
+
+## Relacionamentos
+
+- Constituição: [../00-Foundation/04-Constitution.md](../00-Foundation/04-Constitution.md)
+- ADRs: [../11-ADRs/_INDEX.md](../11-ADRs/_INDEX.md)
+- Roadmap: [../12-Roadmap/MasterRoadmap.md](../12-Roadmap/MasterRoadmap.md)
+`,
+
+  "14-Knowledge-Platform/InformationTaxonomy.md": `# Information Taxonomy
+
+## Objetivo
+
+Padronizar classificação de conhecimento para busca rápida por humanos e IA.
+
+## Taxonomia principal
+
+- **Estratégia**: 00-Foundation, 01-Product
+- **Arquitetura e execução técnica**: 02-Architecture, 04-Backend, 05-Engineering
+- **Domínio industrial**: 06-Domains, 07-Knowledge
+- **IA e automação**: 08-AI
+- **Operação e decisão**: 11-ADRs, 12-Roadmap
+- **Pesquisa e evolução**: 13-Research
+- **Navegação e governança da base**: 14-Knowledge-Platform
+
+## Regras anti-duplicação
+
+1. Cada tema tem documento canônico
+2. Outros capítulos referenciam o canônico via link
+3. Catálogos apontam fontes em vez de copiar conteúdo
+`,
+
+  "14-Knowledge-Platform/NavigationAndDiscovery.md": `# Navigation and Discovery
+
+## Estratégia de descoberta
+
+- navegação hierárquica via índices por seção
+- navegação cruzada via catálogos e matriz
+- acesso por persona via HOME.md
+
+## Percursos recomendados
+
+### Percurso Arquitetura
+HOME -> 00-Foundation -> 11-ADRs -> 02-Architecture -> 12-Roadmap
+
+### Percurso Engenharia de Domínio
+HOME -> 06-Domains -> 07-Knowledge -> 13-Research -> 12-Roadmap
+
+### Percurso IA Grounded
+HOME -> 08-AI -> 07-Knowledge -> 11-ADRs -> 13-Research
+
+## Critérios de boa navegação
+
+- até 3 cliques para chegar ao documento-alvo
+- toda seção com índice local
+- links para documentos relacionados em páginas centrais
+`,
+
+  "14-Knowledge-Platform/CatalogHub.md": `# Catalog Hub
+
+## Objetivo
+
+Centralizar acesso aos catálogos da plataforma sem duplicar conhecimento.
+
+| Catálogo | Documento canônico |
+|----------|--------------------|
+| Catálogo de decisões | [../11-ADRs/CatalogoDecisoes.md](../11-ADRs/CatalogoDecisoes.md) |
+| Catálogo de ADRs | [../11-ADRs/_INDEX.md](../11-ADRs/_INDEX.md) |
+| Catálogo de riscos | [../12-Roadmap/RiskRegister.md](../12-Roadmap/RiskRegister.md) |
+| Catálogo de dívida técnica | [../12-Roadmap/TechDebtCatalog.md](../12-Roadmap/TechDebtCatalog.md) |
+| Catálogo de pesquisas | [../13-Research/_INDEX.md](../13-Research/_INDEX.md) |
+| Catálogo de normas x funcionalidades | [../13-Research/NormasXFuncionalidades.md](../13-Research/NormasXFuncionalidades.md) |
+| Catálogo de módulos (arquitetura) | [../02-Architecture/Modules.md](../02-Architecture/Modules.md) |
+| Catálogo de integrações | [../02-Architecture/ACL.md](../02-Architecture/ACL.md) |
+| Catálogo de templates | [../09-Templates/_INDEX.md](../09-Templates/_INDEX.md) |
+| Catálogo de playbooks | [../10-Playbooks/_INDEX.md](../10-Playbooks/_INDEX.md) |
+`,
+
+  "14-Knowledge-Platform/OnboardingJourneys.md": `# Onboarding Journeys
+
+## Objetivo
+
+Permitir que novos membros entendam visão, arquitetura e fluxo de contribuição em poucas horas.
+
+## Jornada 1 — Desenvolvedor backend
+
+1. HOME.md
+2. Constituição e princípios (00-Foundation)
+3. 02-Architecture + 04-Backend
+4. ADRs aceitas
+5. playbook de nova feature
+
+## Jornada 2 — Engenheiro de domínio
+
+1. 00-Foundation
+2. 06-Domains
+3. 07-Knowledge
+4. 13-Research
+5. Rule Engine e benchmark no roadmap
+
+## Jornada 3 — Produto/Comercial
+
+1. 01-Product
+2. 12-Roadmap
+3. 11-ADRs (catálogo de decisões)
+4. 13-Research (benchmark de mercado)
+`,
+
+  "14-Knowledge-Platform/ContributionGovernance.md": `# Contribution Governance
+
+## Modelo de governança
+
+- Donos por seção (owner funcional)
+- Revisão cruzada para mudanças de alto impacto
+- ADR obrigatória para mudança estrutural
+
+## Ciclo contínuo
+
+1. avaliar lacunas de conteúdo
+2. priorizar por impacto no produto e arquitetura
+3. atualizar documentos canônicos
+4. atualizar índices automáticos
+5. registrar decisão/riscos se necessário
+
+## Políticas
+
+- sem documento órfão sem link de entrada
+- sem duplicação de fonte canônica
+- sem atualização estrutural sem trilha de migração
+`,
+
+  "14-Knowledge-Platform/KnowledgeGraph.md": `# Knowledge Graph
+
+> Este arquivo é atualizado automaticamente por \`npm run bible:index\`.
+`,
+
+  "14-Knowledge-Platform/KnowledgeInventory.md": `# Knowledge Inventory
+
+> Este arquivo é atualizado automaticamente por \`npm run bible:index\`.
+`,
+
+  "14-Knowledge-Platform/QualityDashboard.md": `# Quality Dashboard
+
+> Este arquivo é atualizado automaticamente por \`npm run bible:index\`.
 `,
 };
 

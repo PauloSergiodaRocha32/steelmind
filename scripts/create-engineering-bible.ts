@@ -132,6 +132,7 @@ const tree: Record<string, string[]> = {
     "ADR-004-ACL-Gestio.md",
     "ADR-005-Knowledge-Base-Rule-Engine.md",
     "ADR-006-Bible-Navegavel.md",
+    "ADR-007-Knowledge-Platform-Enterprise.md",
     "CatalogoDecisoes.md",
     "Accepted.md",
     "Proposed.md",
@@ -161,13 +162,74 @@ const tree: Record<string, string[]> = {
     "TendenciasTecnologicas.md",
     "NormasXFuncionalidades.md",
   ],
+
+  "14-Knowledge-Platform": [
+    "README.md",
+    "PlatformArchitecture.md",
+    "InformationTaxonomy.md",
+    "NavigationAndDiscovery.md",
+    "CatalogHub.md",
+    "OnboardingJourneys.md",
+    "ContributionGovernance.md",
+    "KnowledgeGraph.md",
+    "KnowledgeInventory.md",
+    "QualityDashboard.md",
+  ],
 };
+
+const rootFiles = ["HOME.md", "ContribuindoNaBible.md"];
 
 function ensure(dir: string) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
 ensure(ROOT);
+
+for (const file of rootFiles) {
+  const full = path.join(ROOT, file);
+  if (fs.existsSync(full)) continue;
+
+  const title = file.replace(".md", "");
+  fs.writeFileSync(
+    full,
+    `# ${title}
+
+## Objetivo
+
+TODO
+
+---
+
+## Contexto
+
+TODO
+
+---
+
+## Regras
+
+TODO
+
+---
+
+## Arquitetura
+
+TODO
+
+---
+
+## Exemplos
+
+TODO
+
+---
+
+## Referencias
+
+TODO
+`,
+  );
+}
 
 for (const [folder, files] of Object.entries(tree)) {
   const folderPath = path.join(ROOT, folder);
