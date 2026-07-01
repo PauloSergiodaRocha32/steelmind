@@ -14,6 +14,7 @@
     "agents:run": "tsx scripts/agents/cloud-orchestrator.ts",
     "demo:browser": "tsx scripts/browser-walkthrough.ts",
     "demo:project": "tsx scripts/demo-project-cli.ts",
+    "bible:init": "tsx scripts/create-engineering-bible.ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "quality:gate": "npm run lint && npm run test:coverage && npm run build"
