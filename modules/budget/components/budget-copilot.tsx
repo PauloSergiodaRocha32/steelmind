@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  AlertTriangle,
   Bot,
   CheckCircle2,
   ChevronRight,
@@ -9,6 +10,7 @@ import {
   Loader2,
   Paperclip,
   Send,
+  ShieldCheck,
   Sparkles,
   Upload,
   Zap,
@@ -19,6 +21,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import type { SteelQuote, PipelineStep } from "@/types/budget";
+import type { QuoteReadinessReport } from "@/domains/quoting/types";
 
 const SUGGESTIONS = [
   "margem 35%",
@@ -78,6 +81,7 @@ function PipelineRail({ steps }: { steps: PipelineStep[] }) {
 export function BudgetCopilot() {
   const [history, setHistory] = useState<QuoteSummary[]>([]);
   const [quote, setQuote] = useState<SteelQuote | null>(null);
+  const [readiness, setReadiness] = useState<QuoteReadinessReport | null>(null);
   const [observacoes, setObservacoes] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [chatInput, setChatInput] = useState("");
@@ -112,6 +116,7 @@ export function BudgetCopilot() {
 
   const runAnalysis = async () => {
     setAnalyzing(true);
+    setReadiness(null);
     setSimulatedPipeline(
       ["ingest", "extract", "bom", "pricing", "memorial", "review"].map((id, i) => ({
         id: id as PipelineStep["id"],
@@ -145,7 +150,8 @@ export function BudgetCopilot() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error?.message);
-      setQuote(json.data);
+      setQuote(json.data.quote);
+      setReadiness(json.data.readiness ?? null);
       setSimulatedPipeline(null);
       await loadHistory();
     } catch (err) {
@@ -170,6 +176,7 @@ export function BudgetCopilot() {
       const json = await res.json();
       if (!res.ok) throw new Error(json.error?.message);
       setQuote(json.data.quote);
+      setReadiness(json.data.readiness ?? null);
       await loadHistory();
     } catch (err) {
       alert(err instanceof Error ? err.message : "Erro");
@@ -187,8 +194,15 @@ export function BudgetCopilot() {
     });
     const json = await res.json();
     if (res.ok) {
-      setQuote(json.data);
+      setQuote(json.data.quote);
+      setReadiness(json.data.readiness ?? null);
       await loadHistory();
+      return;
+    }
+    if (res.status === 422) {
+      setQuote(json.data?.quote ?? quote);
+      setReadiness(json.data?.readiness ?? readiness);
+      alert(json.error?.message ?? "Orçamento com pendências críticas");
     }
   };
 
@@ -196,7 +210,8 @@ export function BudgetCopilot() {
     const res = await fetch(`/api/v1/budget/quotes?id=${id}`);
     if (res.ok) {
       const json = await res.json();
-      setQuote(json.data);
+      setQuote(json.data.quote);
+      setReadiness(json.data.readiness ?? null);
     }
   };
 
@@ -328,7 +343,12 @@ export function BudgetCopilot() {
                     variant="outline"
                     size="sm"
                     className="mt-4 w-full"
-                    onClick={() => { setQuote(null); setFiles([]); setObservacoes(""); }}
+                    onClick={() => {
+                      setQuote(null);
+                      setReadiness(null);
+                      setFiles([]);
+                      setObservacoes("");
+                    }}
                   >
                     Novo orçamento
                   </Button>
@@ -466,6 +486,80 @@ export function BudgetCopilot() {
           <div className="space-y-4 xl:col-span-4">
             {quote && (
               <>
+                {readiness && (
+                  <Card
+                    className={cn(
+                      "border",
+                      readiness.level === "ready" &&
+                        "border-emerald-500/30 bg-emerald-500/5",
+                      readiness.level === "review_required" &&
+                        "border-amber-500/30 bg-amber-500/5",
+                      readiness.level === "blocked" &&
+                        "border-red-500/30 bg-red-500/5",
+                    )}
+                  >
+                    <CardHeader className="pb-2">
+                      <CardTitle className="flex items-center justify-between text-sm">
+                        <span className="flex items-center gap-2">
+                          {readiness.level === "ready" ? (
+                            <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                          ) : (
+                            <AlertTriangle className="h-4 w-4 text-amber-500" />
+                          )}
+                          Prontidão operacional
+                        </span>
+                        <Badge
+                          variant={readiness.level === "blocked" ? "destructive" : "outline"}
+                          className="text-[10px]"
+                        >
+                          {readiness.level === "ready"
+                            ? "Pronto"
+                            : readiness.level === "review_required"
+                              ? "Revisar"
+                              : "Bloqueado"}{" "}
+                          · {readiness.score}/100
+                        </Badge>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2 text-xs">
+                      {readiness.checks.length === 0 ? (
+                        <p className="text-emerald-600">
+                          Nenhuma pendência detectada para confirmação.
+                        </p>
+                      ) : (
+                        readiness.checks.slice(0, 5).map((check) => (
+                          <div
+                            key={check.id}
+                            className={cn(
+                              "rounded-md border px-2 py-1.5",
+                              check.severity === "critical" &&
+                                "border-red-500/30 bg-red-500/5",
+                              check.severity === "warning" &&
+                                "border-amber-500/30 bg-amber-500/5",
+                              check.severity === "info" &&
+                                "border-sky-500/30 bg-sky-500/5",
+                            )}
+                          >
+                            <p className="font-medium">
+                              {check.severity === "critical"
+                                ? "Crítico"
+                                : check.severity === "warning"
+                                  ? "Atenção"
+                                  : "Info"}
+                            </p>
+                            <p className="text-muted-foreground">{check.message}</p>
+                          </div>
+                        ))
+                      )}
+                      {readiness.blockers.length > 0 && (
+                        <p className="text-[11px] font-medium text-red-500">
+                          {readiness.blockers.length} pendência(s) crítica(s) impedem confirmação.
+                        </p>
+                      )}
+                    </CardContent>
+                  </Card>
+                )}
+
                 <Card className="border-emerald-500/20 bg-emerald-500/5">
                   <CardContent className="grid grid-cols-2 gap-3 py-4 text-xs">
                     <div>
@@ -562,9 +656,12 @@ export function BudgetCopilot() {
                     className="w-full gap-2"
                     variant="default"
                     onClick={confirmQuote}
+                    disabled={readiness?.level === "blocked"}
                   >
                     <CheckCircle2 className="h-4 w-4" />
-                    Confirmar memorial e valores
+                    {readiness?.level === "blocked"
+                      ? "Corrigir pendências críticas para confirmar"
+                      : "Confirmar memorial e valores"}
                   </Button>
                 )}
               </>

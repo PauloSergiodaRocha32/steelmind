@@ -98,6 +98,43 @@ Registrar revisão contínua de consistência documental da Engineering Bible.
 - Agendada para próximo ciclo após primeiros capítulos de domínio completos.
 `,
 
+  "06-Domains/OrcamentoOperacionalInglesa.md": `# Orçamento Operacional — Inglesa Metais
+
+## Objetivo
+
+Definir o orçamento como núcleo operacional da Inglesa Metais, conectando comercial, compras, produção, montagem e financeiro.
+
+## Problema que resolve
+
+O orçamento tradicional (PDF isolado) não prepara operação. Isso gera retrabalho, compras incompletas e risco de margem.
+
+## Fluxo operacional alvo
+
+1. Entrada de escopo + anexos
+2. Memorial técnico explicável
+3. BOM e consumíveis rastreáveis
+4. Estimativa de mão de obra, pintura e logística
+5. Validação de prontidão (readiness gate)
+6. Confirmação com riscos e premissas explícitas
+7. Handoff para compras e produção
+
+## Entregas mínimas do orçamento pronto
+
+- memorial descritivo
+- lista de materiais
+- lista de consumíveis
+- composição de custos e margem
+- premissas usadas
+- riscos identificados
+- alertas de pendências críticas
+
+## Relações
+
+- ADR operacional: [../11-ADRs/ADR-008-Readiness-Gate-Operacional.md](../11-ADRs/ADR-008-Readiness-Gate-Operacional.md)
+- roadmap: [../12-Roadmap/MasterRoadmap.md](../12-Roadmap/MasterRoadmap.md)
+- pesquisa base: [../13-Research/Orcamentacao.md](../13-Research/Orcamentacao.md)
+`,
+
   "11-ADRs/README.md": `# ADRs — SteelMind Engineering Bible
 
 ## Objetivo
@@ -381,6 +418,35 @@ Evoluir a Engineering Bible para plataforma de conhecimento com:
 - necessidade de revisão periódica de taxonomia
 `,
 
+  "11-ADRs/ADR-008-Readiness-Gate-Operacional.md": `# ADR-008: Readiness Gate operacional antes da confirmação do orçamento
+
+- Status: Accepted
+- Data: 2026-07-01
+
+## Contexto
+
+O orçamento estava sendo confirmado sem validação explícita de pendências críticas, comprometendo compras e produção.
+
+## Decisão
+
+Introduzir camada de prontidão operacional:
+
+- score de prontidão
+- alertas e bloqueios críticos
+- explicação objetiva de pendências
+- bloqueio apenas para riscos críticos (sem travar warnings)
+
+## Consequências
+
+### Positivas
+- redução de erros de handoff
+- maior previsibilidade operacional
+- aumento de confiança da diretoria e engenharia
+
+### Negativas
+- necessidade de calibrar regras de prontidão ao longo do uso real
+`,
+
   "11-ADRs/Accepted.md": `# ADRs Aceitas
 
 | ADR | Título | Status |
@@ -393,6 +459,7 @@ Evoluir a Engineering Bible para plataforma de conhecimento com:
 | [ADR-005-Knowledge-Base-Rule-Engine](ADR-005-Knowledge-Base-Rule-Engine.md) | Knowledge Base + Rule Engine | Accepted |
 | [ADR-006-Bible-Navegavel](ADR-006-Bible-Navegavel.md) | Bible navegável e operacional | Accepted |
 | [ADR-007-Knowledge-Platform-Enterprise](ADR-007-Knowledge-Platform-Enterprise.md) | Knowledge Platform enterprise | Accepted |
+| [ADR-008-Readiness-Gate-Operacional](ADR-008-Readiness-Gate-Operacional.md) | Readiness Gate operacional | Accepted |
 `,
 
   "11-ADRs/CatalogoDecisoes.md": `# Catálogo de decisões arquiteturais
@@ -411,6 +478,7 @@ Consolidar visão executiva das decisões já aceitas e seus impactos diretos na
 | Knowledge Base + Rule Engine | regra hardcoded | versionamento e auditoria |
 | Bible navegável | baixa encontrabilidade | onboarding e operação de conhecimento |
 | Knowledge Platform enterprise | crescimento desorganizado da wiki | descoberta rápida e governança de longo prazo |
+| Readiness gate operacional | confirmação insegura de orçamento | redução de risco entre comercial e operação |
 `,
 
   "11-ADRs/Proposed.md": `# ADRs Propostas

@@ -14,3 +14,4 @@ Consolidar visão executiva das decisões já aceitas e seus impactos diretos na
 | Knowledge Base + Rule Engine | regra hardcoded | versionamento e auditoria |
 | Bible navegável | baixa encontrabilidade | onboarding e operação de conhecimento |
 | Knowledge Platform enterprise | crescimento desorganizado da wiki | descoberta rápida e governança de longo prazo |
+| Readiness gate operacional | confirmação insegura de orçamento | redução de risco entre comercial e operação |

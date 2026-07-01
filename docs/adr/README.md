@@ -24,3 +24,4 @@ This directory stores all architecture decisions that affect domain boundaries, 
 - ADR-010 — Persistent Calibration Repositories and CI Quality Gates
 - ADR-011 — Engineering Bible as Navigable Knowledge System
 - ADR-012 — Knowledge Platform Information Architecture and Governance
+- ADR-013 — Quote Readiness Gate for Operational Confirmation

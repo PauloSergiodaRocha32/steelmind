@@ -10,3 +10,4 @@
 | [ADR-005-Knowledge-Base-Rule-Engine](ADR-005-Knowledge-Base-Rule-Engine.md) | Knowledge Base + Rule Engine | Accepted |
 | [ADR-006-Bible-Navegavel](ADR-006-Bible-Navegavel.md) | Bible navegável e operacional | Accepted |
 | [ADR-007-Knowledge-Platform-Enterprise](ADR-007-Knowledge-Platform-Enterprise.md) | Knowledge Platform enterprise | Accepted |
+| [ADR-008-Readiness-Gate-Operacional](ADR-008-Readiness-Gate-Operacional.md) | Readiness Gate operacional | Accepted |

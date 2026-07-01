@@ -17,5 +17,6 @@ Arquivo gerado automaticamente por `npm run bible:index`.
 | [Fachadas.md](Fachadas.md) | Fachadas |
 | [GuardaCorpo.md](GuardaCorpo.md) | GuardaCorpo |
 | [Mezaninos.md](Mezaninos.md) | Mezaninos |
+| [OrcamentoOperacionalInglesa.md](OrcamentoOperacionalInglesa.md) | Orçamento Operacional — Inglesa Metais |
 | [Pergolados.md](Pergolados.md) | Pergolados |
 | [Portoes.md](Portoes.md) | Portoes |

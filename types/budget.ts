@@ -1,3 +1,5 @@
+import type { QuoteReadinessReport } from "@/domains/quoting/types";
+
 export type QuoteStatus =
   | "draft"
   | "analyzing"
@@ -89,6 +91,11 @@ export interface SteelQuote {
   createdAt: string;
   updatedAt: string;
   createdBy?: string | null;
+}
+
+export interface QuoteWithReadiness {
+  quote: SteelQuote;
+  readiness: QuoteReadinessReport;
 }
 
 export interface AnalyzeQuoteInput {

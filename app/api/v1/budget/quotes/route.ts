@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
 import { listQuotes, getQuote, quotesBackend } from "@/lib/persistence/quotes-store";
+import { assessQuoteReadinessForQuote } from "@/application/quoting/use-cases/assess-quote-readiness";
 
 export async function GET(request: Request) {
   const auth = await requirePermission("budget:read");
@@ -17,7 +18,8 @@ export async function GET(request: Request) {
         { status: 404 },
       );
     }
-    return NextResponse.json({ data: quote });
+    const readiness = assessQuoteReadinessForQuote(quote);
+    return NextResponse.json({ data: { quote, readiness } });
   }
 
   const quotes = await listQuotes();

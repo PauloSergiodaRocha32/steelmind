@@ -51,3 +51,24 @@ export interface GuardrailQuoteResult {
   total: Money;
   warnings: QuoteEngineWarnings[];
 }
+
+export type QuoteReadinessLevel = "ready" | "review_required" | "blocked";
+
+export type QuoteReadinessSeverity = "info" | "warning" | "critical";
+
+export interface QuoteReadinessCheck {
+  id: string;
+  severity: QuoteReadinessSeverity;
+  message: string;
+  field?: string;
+  source?: "input" | "bom" | "memorial" | "pricing" | "rule_engine_v2";
+}
+
+export interface QuoteReadinessReport {
+  level: QuoteReadinessLevel;
+  score: number;
+  checks: QuoteReadinessCheck[];
+  blockers: QuoteReadinessCheck[];
+  recommendedActions: string[];
+  generatedAt: string;
+}

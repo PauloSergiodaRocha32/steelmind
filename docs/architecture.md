@@ -138,6 +138,7 @@ This addendum follows:
 - ADR-010 (persistent repositories + CI quality gates)
 - ADR-011 (engineering bible as navigable knowledge system)
 - ADR-012 (knowledge platform information architecture and governance)
+- ADR-013 (quote readiness gate for operational confirmation)
 
 ## 8. Quality Gates (CI)
 

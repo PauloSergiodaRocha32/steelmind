@@ -75,6 +75,7 @@ const tree: Record<string, string[]> = {
 
   "06-Domains": [
     "GuardaCorpo.md",
+    "OrcamentoOperacionalInglesa.md",
     "Escadas.md",
     "Pergolados.md",
     "EstruturasMetalicas.md",
@@ -133,6 +134,7 @@ const tree: Record<string, string[]> = {
     "ADR-005-Knowledge-Base-Rule-Engine.md",
     "ADR-006-Bible-Navegavel.md",
     "ADR-007-Knowledge-Platform-Enterprise.md",
+    "ADR-008-Readiness-Gate-Operacional.md",
     "CatalogoDecisoes.md",
     "Accepted.md",
     "Proposed.md",
