@@ -38,6 +38,9 @@ yarn-error.log*
 # local backups
 /backups/
 
+# local persistence store
+/data/steelmind/store.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

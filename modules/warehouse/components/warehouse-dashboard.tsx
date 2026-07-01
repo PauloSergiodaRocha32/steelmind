@@ -8,6 +8,7 @@ import {
   RefreshCw,
   Search,
   Warehouse,
+  ArrowLeftRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +17,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { ProductSearchPanel } from "@/modules/warehouse/components/product-search-panel";
 import { StockOverviewPanel } from "@/modules/warehouse/components/stock-overview-panel";
+import { MovementsPanel } from "@/modules/warehouse/components/movements-panel";
 import { ProductRow } from "@/modules/warehouse/components/product-row";
 import {
   useStockOverview,
@@ -23,7 +25,7 @@ import {
   useWarehouseSearch,
 } from "@/modules/warehouse/hooks/use-warehouse-catalog";
 
-type TabId = "catalogo" | "busca" | "estoque";
+type TabId = "catalogo" | "busca" | "estoque" | "movimentacoes";
 
 function StatCard({
   label,
@@ -53,6 +55,7 @@ const TABS: Array<{ id: TabId; label: string; icon: React.ComponentType<{ classN
   { id: "catalogo", label: "Catálogo", icon: Layers },
   { id: "busca", label: "Busca", icon: Search },
   { id: "estoque", label: "Estoque", icon: Warehouse },
+  { id: "movimentacoes", label: "Movimentações", icon: ArrowLeftRight },
 ];
 
 export function WarehouseDashboard() {
@@ -283,6 +286,8 @@ export function WarehouseDashboard() {
           {tab === "estoque" && (
             <StockOverviewPanel stock={stock} loading={stockLoading} />
           )}
+
+          {tab === "movimentacoes" && <MovementsPanel />}
         </>
       )}
     </div>

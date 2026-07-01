@@ -1,10 +1,10 @@
 import { AppShell } from "@/components/layout/app-shell";
-import { DashboardPlaceholder } from "@/components/dashboard/dashboard-placeholder";
+import { PlatformDashboard } from "@/components/dashboard/platform-dashboard";
 
 export default function HomePage() {
   return (
     <AppShell title="Dashboard">
-      <DashboardPlaceholder />
+      <PlatformDashboard />
     </AppShell>
   );
 }

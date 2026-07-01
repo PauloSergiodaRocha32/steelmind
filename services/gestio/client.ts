@@ -1,4 +1,12 @@
 import type {
+  CreateEntradaPayload,
+  CreateSaidaPayload,
+  GestioMovimentacaoEntrada,
+  GestioMovimentacaoSaida,
+  GestioProjeto,
+  GestioRequisicaoCompra,
+} from "@/types/gestio-extended";
+import type {
   GestioAlmoxarifado,
   GestioApiResponse,
   GestioAuthResponse,
@@ -126,6 +134,62 @@ export class GestioClient {
     return this.request<GestioProduto>("/v2/produto", {
       method: "PUT",
       body: JSON.stringify(produto),
+    });
+  }
+
+  getProjetos(): Promise<GestioProjeto[]> {
+    return this.getData<GestioProjeto[]>("/v2/projeto");
+  }
+
+  getEntradas(): Promise<GestioMovimentacaoEntrada[]> {
+    return this.getData<GestioMovimentacaoEntrada[]>("/v2/estoque/entrada");
+  }
+
+  getSaidas(): Promise<GestioMovimentacaoSaida[]> {
+    return this.getData<GestioMovimentacaoSaida[]>("/v2/estoque/saida");
+  }
+
+  getMovimentacoesProduto(idProd: number): Promise<unknown[]> {
+    return this.getData<unknown[]>(`/v2/estoque/movimentacoes/produto/${idProd}`);
+  }
+
+  getRequisicoesCompraAbertas(): Promise<GestioRequisicaoCompra[]> {
+    return this.getData<GestioRequisicaoCompra[]>("/v2/compras/requisicao/abertas");
+  }
+
+  getRequisicoesCompraEncerradas(): Promise<GestioRequisicaoCompra[]> {
+    return this.getData<GestioRequisicaoCompra[]>(
+      "/v2/compras/requisicao/encerradas",
+    );
+  }
+
+  createEntrada(payload: CreateEntradaPayload): Promise<GestioMovimentacaoEntrada> {
+    return this.request<GestioMovimentacaoEntrada>("/v2/estoque/entrada", {
+      method: "POST",
+      body: JSON.stringify({
+        codigoDaFilial: payload.codigoDaFilial,
+        codigoDoAlmoxarifado: payload.codigoDoAlmoxarifado,
+        idProd: payload.idProd,
+        quantidade: payload.quantidade,
+        codigoDaSecao: payload.codigoDaSecao ?? "1",
+        codigoDoProjeto: payload.codigoDoProjeto ?? 0,
+        observacao: payload.observacao ?? "SteelMind — entrada",
+      }),
+    });
+  }
+
+  createSaida(payload: CreateSaidaPayload): Promise<GestioMovimentacaoSaida> {
+    return this.request<GestioMovimentacaoSaida>("/v2/estoque/saida", {
+      method: "POST",
+      body: JSON.stringify({
+        codigoDaFilial: payload.codigoDaFilial,
+        codigoDoAlmoxarifado: payload.codigoDoAlmoxarifado,
+        idProd: payload.idProd,
+        quantidade: payload.quantidade,
+        codigoDaSecao: payload.codigoDaSecao ?? "1",
+        codigoDoProjeto: payload.codigoDoProjeto ?? 0,
+        observacao: payload.observacao ?? "SteelMind — saída",
+      }),
     });
   }
 }
