@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireAuth, isAuthError } from "@/lib/auth/api-guard";
 import { createGestioClient } from "@/services/gestio/client";
 import { getStore, isSupabaseConfigured } from "@/lib/persistence/store";
 import { loadGestioCatalog } from "@/modules/warehouse/application/load-catalog";
@@ -7,6 +8,9 @@ import { listOpportunities } from "@/lib/persistence/commercial-store";
 import { listQuotes } from "@/lib/persistence/quotes-store";
 
 export async function GET() {
+  const auth = await requireAuth();
+  if (isAuthError(auth)) return auth;
+
   try {
     const catalog = loadGestioCatalog();
     const store = await getStore();
