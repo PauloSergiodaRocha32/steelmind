@@ -1,35 +1,11 @@
-# Accepted
+# ADRs Aceitas
 
-## Objetivo
-
-TODO
-
----
-
-## Contexto
-
-TODO
-
----
-
-## Regras
-
-TODO
-
----
-
-## Arquitetura
-
-TODO
-
----
-
-## Exemplos
-
-TODO
-
----
-
-## Referencias
-
-TODO
+| ADR | Título | Status |
+|-----|--------|--------|
+| [ADR-000-Constituicao-v1](ADR-000-Constituicao-v1.md) | Constituição v1.0 | Accepted |
+| [ADR-001-Arquitetura-Modular](ADR-001-Arquitetura-Modular.md) | Arquitetura modular | Accepted |
+| [ADR-002-Clean-Architecture](ADR-002-Clean-Architecture.md) | Clean Architecture | Accepted |
+| [ADR-003-Shadow-Mode](ADR-003-Shadow-Mode.md) | Shadow Mode | Accepted |
+| [ADR-004-ACL-Gestio](ADR-004-ACL-Gestio.md) | ACL Gestio | Accepted |
+| [ADR-005-Knowledge-Base-Rule-Engine](ADR-005-Knowledge-Base-Rule-Engine.md) | Knowledge Base + Rule Engine | Accepted |
+| [ADR-006-Bible-Navegavel](ADR-006-Bible-Navegavel.md) | Bible navegável e operacional | Accepted |

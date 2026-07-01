@@ -12,6 +12,7 @@ const tree: Record<string, string[]> = {
     "04-Constitution.md",
     "05-CorePrinciples.md",
     "06-Glossary.md",
+    "07-BibleQualityReview.md",
   ],
 
   "01-Product": [
@@ -122,7 +123,16 @@ const tree: Record<string, string[]> = {
   ],
 
   "11-ADRs": [
-    "ADR-Index.md",
+    "README.md",
+    "TEMPLATE.md",
+    "ADR-000-Constituicao-v1.md",
+    "ADR-001-Arquitetura-Modular.md",
+    "ADR-002-Clean-Architecture.md",
+    "ADR-003-Shadow-Mode.md",
+    "ADR-004-ACL-Gestio.md",
+    "ADR-005-Knowledge-Base-Rule-Engine.md",
+    "ADR-006-Bible-Navegavel.md",
+    "CatalogoDecisoes.md",
     "Accepted.md",
     "Proposed.md",
     "Deprecated.md",
@@ -130,19 +140,26 @@ const tree: Record<string, string[]> = {
   ],
 
   "12-Roadmap": [
+    "README.md",
     "MasterRoadmap.md",
     "QuarterlyPlan.md",
     "Milestones.md",
     "Dependencies.md",
     "RiskRegister.md",
+    "Timeline.md",
+    "TechDebtCatalog.md",
   ],
 
   "13-Research": [
-    "MarketResearch.md",
-    "CompetitorAnalysis.md",
-    "TechnicalResearch.md",
-    "Hypotheses.md",
-    "ValidationNotes.md",
+    "README.md",
+    "NormasABNT.md",
+    "CatalogosFabricantes.md",
+    "EngenhariaEstruturasMetalicas.md",
+    "Orcamentacao.md",
+    "IAAplicadaEngenharia.md",
+    "BenchmarkSoftwaresMercado.md",
+    "TendenciasTecnologicas.md",
+    "NormasXFuncionalidades.md",
   ],
 };
 

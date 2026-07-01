@@ -136,6 +136,7 @@ This addendum follows:
 - ADR-008 (strangler shadow migration)
 - ADR-009 (shadow calibration infrastructure)
 - ADR-010 (persistent repositories + CI quality gates)
+- ADR-011 (engineering bible as navigable knowledge system)
 
 ## 8. Quality Gates (CI)
 

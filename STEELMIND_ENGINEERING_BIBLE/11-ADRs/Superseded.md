@@ -1,35 +1,9 @@
-# Superseded
+# ADRs Superseded
 
-## Objetivo
+Sem ADRs superseded no momento.
 
-TODO
+Fluxo recomendado:
 
----
-
-## Contexto
-
-TODO
-
----
-
-## Regras
-
-TODO
-
----
-
-## Arquitetura
-
-TODO
-
----
-
-## Exemplos
-
-TODO
-
----
-
-## Referencias
-
-TODO
+1. Criar nova ADR
+2. Marcar ADR antiga como Superseded
+3. Atualizar índices e dependências

@@ -22,3 +22,4 @@ This directory stores all architecture decisions that affect domain boundaries, 
 - ADR-008 — Strangler Migration from Legacy Estimator to Quote Engine V2
 - ADR-009 — Shadow Calibration and Benchmark Infrastructure
 - ADR-010 — Persistent Calibration Repositories and CI Quality Gates
+- ADR-011 — Engineering Bible as Navigable Knowledge System

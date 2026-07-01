@@ -1,35 +1,9 @@
-# Deprecated
+# ADRs Deprecadas
 
-## Objetivo
+Sem ADRs deprecadas no momento.
 
-TODO
+Quando houver:
 
----
-
-## Contexto
-
-TODO
-
----
-
-## Regras
-
-TODO
-
----
-
-## Arquitetura
-
-TODO
-
----
-
-## Exemplos
-
-TODO
-
----
-
-## Referencias
-
-TODO
+- registrar motivo
+- registrar impacto
+- apontar ADR substituta

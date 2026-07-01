@@ -1,35 +1,28 @@
-# QuarterlyPlan
+# Quarterly Plan
 
-## Objetivo
+## Q3 2026 (execução atual)
 
-TODO
+### Objetivos
 
----
+- consolidar Engineering Bible
+- fechar persistência canônica de shadow/calibration/benchmark
+- estruturar quality gates de CI
 
-## Contexto
+### Critérios de aceite
 
-TODO
+- ADRs atualizadas
+- cobertura de testes para novos módulos
+- pipeline de qualidade executando em PR
 
----
+## Q4 2026 (próximo)
 
-## Regras
+### Objetivos
 
-TODO
+- iniciar ingestão formal de casos de calibração reais
+- implementar governance de Rule Engine (publish/review)
+- primeiro ciclo de benchmark comparativo recorrente
 
----
+### Dependências
 
-## Arquitetura
-
-TODO
-
----
-
-## Exemplos
-
-TODO
-
----
-
-## Referencias
-
-TODO
+- base de dados real validada
+- revisão técnica de engenharia de produção
