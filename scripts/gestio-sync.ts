@@ -5,7 +5,7 @@ import {
   syncGestioData,
   applyGestioClassification,
   analyzeClassification,
-} from "../services/gestio/sync";
+} from "../providers/gestio/sync";
 
 config();
 

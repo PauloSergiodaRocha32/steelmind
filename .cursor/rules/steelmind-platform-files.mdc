@@ -1,0 +1,36 @@
+---
+description: Apply when editing SteelMind providers, departments, agents, or knowledge files.
+globs:
+  - "providers/**/*.ts"
+  - "departments/**/*.ts"
+  - "agents/**/*.ts"
+  - "knowledge/**/*.md"
+---
+
+# SteelMind Platform Files
+
+When editing these files, preserve strict responsibility boundaries:
+
+## `providers/`
+
+- Fetch, normalize, and expose typed data.
+- Do not calculate budget, pricing, engineering norms, or production formulas.
+- If data is missing, report a gap instead of inventing a value.
+
+## `departments/`
+
+- Route business questions to responsible teams.
+- Return answers with confidence, provider paths, knowledge paths, missing data, and next actions.
+- Use the Gest.io data readiness matrix as the source of audit truth.
+
+## `agents/`
+
+- Agents execute work using department/team answers.
+- Do not bypass department contracts for Gest.io-owned data.
+- Every implemented calculation should reference a `knowledge/engineering/*.md` spec.
+
+## `knowledge/`
+
+- Version rules, formulas, norms, mappings, and assumptions.
+- State ownership, scope, dependencies, and review date.
+- Do not store live ERP data here.

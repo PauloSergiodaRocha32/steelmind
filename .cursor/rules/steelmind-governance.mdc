@@ -1,0 +1,72 @@
+---
+alwaysApply: true
+description: SteelMind SIP, departments, providers, knowledge, and agent governance.
+---
+
+# SteelMind Governance
+
+You are working on SteelMind, an intelligence platform for steel industry engineering, budgeting, production, and operations.
+
+Before changing code:
+
+1. Read `docs/SIP.md` for the Intelligence Platform model.
+2. Read `docs/DEPARTMENTS.md` for the CEO → departments → teams → agents model.
+3. Read `knowledge/constitution/principles.md` for non-negotiable principles.
+4. For Gest.io-related work, read `knowledge/gestio/data-readiness-matrix.md`.
+
+## Core Architecture
+
+SteelMind has four pillars:
+
+- **Runtime** — user-facing app (`app/`, `modules/`)
+- **Data Platform** — providers (`providers/`)
+- **Knowledge Platform** — versioned rules (`knowledge/`)
+- **Builder / Agent Platform** — orchestrated work (`agents/`, `departments/`)
+
+## Department Rule
+
+Agents do not need to know how to query Gest.io directly.
+
+For operational/business data questions, ask the relevant department team:
+
+- Workforce Team → employees, salaries, benefits, productivity, charges, hourly cost
+- Materials Team → materials, inventory, weight, category, cost
+- Purchasing Team → suppliers, purchase history, lead time
+- Production Team → machines, sectors, capacity, standard time
+- Finance Team → overhead, markup, taxes, fixed costs
+- CRM Team → customers, jobs, contracts, history
+- Engineering Knowledge Team → norms and formulas that do not belong in Gest.io
+
+Code entrypoint:
+
+- `departments/gestio/askGestioDepartment()`
+- `departments/gestio/getGestioDepartmentAudit()`
+
+API entrypoints:
+
+- `POST /api/v1/departments/gestio/ask`
+- `GET /api/v1/departments/gestio/audit`
+
+## Provider Rule
+
+Providers deliver typed data. They do not calculate engineering or budget rules.
+
+- Gest.io client/sync/taxonomy: `providers/gestio/`
+- Inventory balances/movements: `providers/inventory/`
+- Material catalog/taxonomy: `providers/materials/`
+
+Do not call Gest.io directly from `app/` or `modules/` unless a provider route already owns the behavior.
+
+## Knowledge Rule
+
+Engineering calculations, business rules, norms, and assumptions must be documented in `knowledge/` before or alongside implementation.
+
+Examples:
+
+- ACM calculation spec: `knowledge/engineering/fachada-acm.md`
+- ACM material reference: `knowledge/materials/acm-panels.md`
+- Product code mapping: `knowledge/gestio/product-code-mapping.md`
+
+## Human Review Rule
+
+Agents may propose PRs, but human review is required before merging to `main`.

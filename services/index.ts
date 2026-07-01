@@ -1,1 +1,1 @@
-export * from "./gestio";
+export * from "@/providers";

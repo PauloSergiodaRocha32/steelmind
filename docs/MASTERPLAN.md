@@ -11,16 +11,22 @@
 | Document | Scope |
 |----------|-------|
 | [PRODUCT_VISION.md](./PRODUCT_VISION.md) | Why SteelMind exists, product philosophy, domain boundaries |
+| [SIP.md](./SIP.md) | SteelMind Intelligence Platform — Data, Knowledge, Agent pillars |
+| [DEPARTMENTS.md](./DEPARTMENTS.md) | CEO → departments → teams → agents operating model |
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | System design, DDD, folder structure, events, API, scalability |
 | [CODING_STANDARDS.md](./CODING_STANDARDS.md) | Code style, naming, components, Git, PRs, branches |
 | [ROADMAP.md](./ROADMAP.md) | Phased delivery plan (infrastructure & platform, not features) |
+| [../AGENTS.md](../AGENTS.md) | Root instructions for Cursor and AI agents |
 
 **Read order for new contributors and AI agents:**
 
 1. PRODUCT_VISION → understand intent and boundaries
-2. ARCHITECTURE → understand structure and patterns
-3. CODING_STANDARDS → understand how to write code
-4. ROADMAP → understand what to build next and what to defer
+2. SIP → understand the four pillars and Intelligence Platform direction
+3. DEPARTMENTS → understand department/team accountability
+4. ARCHITECTURE → understand structure and patterns
+5. CODING_STANDARDS → understand how to write code
+6. ROADMAP → understand what to build next and what to defer
+7. AGENTS → understand Cursor/agent operating instructions
 
 ---
 

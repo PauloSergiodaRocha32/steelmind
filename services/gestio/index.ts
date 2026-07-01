@@ -1,13 +1,20 @@
-export { GestioClient, createGestioClient } from "./client";
+/** @deprecated Import from `@/providers/gestio` */
+export { GestioClient, createGestioClient } from "@/providers/gestio/client";
 export {
   CANONICAL_DIRECTORY,
   MATERIAL_PREFIX_TO_GROUP,
   SHAPE_CODE_TO_TAXONOMY,
   classifyProduct,
   parseProductCode,
-} from "./taxonomy";
+} from "@/providers/gestio/taxonomy";
 export {
   analyzeClassification,
   applyGestioClassification,
   syncGestioData,
-} from "./sync";
+  type ClassifyBatchResult,
+  type ClassifyResult,
+} from "@/providers/gestio/sync";
+export {
+  loadGestioSnapshot,
+  requireGestioSnapshot,
+} from "@/providers/gestio/snapshot";
