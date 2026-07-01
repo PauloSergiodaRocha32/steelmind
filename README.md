@@ -24,11 +24,13 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Document | Description |
 |----------|-------------|
+| [docs/CONSTITUTION.md](docs/CONSTITUTION.md) | Supreme architecture and product-engineering authority |
 | [docs/MASTERPLAN.md](docs/MASTERPLAN.md) | Project governance and document map |
 | [docs/PRODUCT_VISION.md](docs/PRODUCT_VISION.md) | Product philosophy and domain boundaries |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System design, DDD, events, API conventions |
 | [docs/CODING_STANDARDS.md](docs/CODING_STANDARDS.md) | Code style, naming, Git, and PR strategy |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Phased platform delivery plan |
+| [docs/adr/README.md](docs/adr/README.md) | Architecture Decision Records index |
 
 ## License
 

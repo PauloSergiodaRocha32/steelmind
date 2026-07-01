@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
 import { analyzeQuote } from "@/lib/budget/ai-engine";
 import { saveQuote } from "@/lib/persistence/quotes-store";
+import { runQuoteEngineV2Shadow } from "@/application/quoting/use-cases/run-quote-engine-v2-shadow";
 import type { UploadedFileMeta } from "@/types/budget";
 
 export async function POST(request: Request) {
@@ -43,6 +44,14 @@ export async function POST(request: Request) {
       auth.id,
     );
     await saveQuote(quote);
+
+    runQuoteEngineV2Shadow({
+      title: quote.titulo,
+      notes: observacoes,
+      files: arquivos,
+      legacyTotal: quote.custos.total,
+      requestedBy: auth.id,
+    });
 
     return NextResponse.json({ data: quote }, { status: 201 });
   } catch (error) {
