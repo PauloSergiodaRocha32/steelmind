@@ -2,8 +2,12 @@ import { NextResponse } from "next/server";
 import { syncGestioData } from "@/services/gestio/sync";
 import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
+import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
 
 export async function POST() {
+  const auth = await requirePermission("gestio:sync");
+  if (isAuthError(auth)) return auth;
+
   try {
     const snapshot = await syncGestioData();
     const dataDir = resolve(process.cwd(), "data/gestio");

@@ -2,8 +2,12 @@ import { NextResponse } from "next/server";
 import { createGestioClient } from "@/services/gestio/client";
 import { logMovement } from "@/lib/persistence/store";
 import type { CreateEntradaPayload, CreateSaidaPayload } from "@/types/gestio-extended";
+import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
 
 export async function GET() {
+  const auth = await requirePermission("warehouse:read");
+  if (isAuthError(auth)) return auth;
+
   try {
     const client = createGestioClient();
     await client.authenticate();
@@ -27,6 +31,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const auth = await requirePermission("warehouse:move");
+  if (isAuthError(auth)) return auth;
+
   try {
     const body = (await request.json()) as {
       tipo: "entrada" | "saida";
@@ -47,6 +54,7 @@ export async function POST(request: Request) {
         codigoDoProjeto: result.codigoDoProjeto ?? null,
         gestioNumero: result.numeroDaEntrada,
         observacao: body.payload.observacao ?? null,
+        createdBy: auth.id,
       });
       return NextResponse.json({ data: result });
     }
@@ -61,6 +69,7 @@ export async function POST(request: Request) {
       codigoDoProjeto: result.codigoDoProjeto ?? null,
       gestioNumero: result.numeroDaSaida,
       observacao: body.payload.observacao ?? null,
+      createdBy: auth.id,
     });
     return NextResponse.json({ data: result });
   } catch (error) {

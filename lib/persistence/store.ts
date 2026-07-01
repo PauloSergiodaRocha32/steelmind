@@ -72,6 +72,7 @@ export async function getStore(): Promise<SteelmindStore & { backend: string }> 
       items: row.items ?? [],
       createdAt: row.created_at,
       gestioNumero: row.gestio_numero,
+      createdBy: row.created_by ?? null,
     })),
     movementLogs: (movements.data ?? []).map((row) => ({
       id: row.id,
@@ -84,6 +85,7 @@ export async function getStore(): Promise<SteelmindStore & { backend: string }> 
       gestioNumero: row.gestio_numero,
       observacao: row.observacao,
       createdAt: row.created_at,
+      createdBy: row.created_by ?? null,
     })),
   };
 }
@@ -122,6 +124,7 @@ export async function savePurchaseRequisition(
     status: req.status,
     items: req.items,
     gestioNumero: req.gestioNumero,
+    createdBy: req.createdBy ?? null,
   };
 
   const supabase = getSupabase();
@@ -134,6 +137,7 @@ export async function savePurchaseRequisition(
       status: full.status,
       items: full.items,
       gestio_numero: full.gestioNumero,
+      created_by: full.createdBy ?? null,
     });
     return full;
   }
@@ -165,6 +169,7 @@ export async function logMovement(
       codigo_do_projeto: full.codigoDoProjeto,
       gestio_numero: full.gestioNumero,
       observacao: full.observacao,
+      created_by: full.createdBy ?? null,
     });
     return full;
   }

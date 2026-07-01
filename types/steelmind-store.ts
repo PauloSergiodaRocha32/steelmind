@@ -31,6 +31,7 @@ export interface PurchaseRequisition {
   items: PurchaseRequisitionItem[];
   createdAt: string;
   gestioNumero?: number | null;
+  createdBy?: string | null;
 }
 
 export interface MovementLogEntry {
@@ -44,6 +45,7 @@ export interface MovementLogEntry {
   gestioNumero: number | null;
   observacao: string | null;
   createdAt: string;
+  createdBy?: string | null;
 }
 
 export interface SteelmindStore {

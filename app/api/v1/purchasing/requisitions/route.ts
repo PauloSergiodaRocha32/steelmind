@@ -3,8 +3,12 @@ import { createGestioClient } from "@/services/gestio/client";
 import { getStore, savePurchaseRequisition } from "@/lib/persistence/store";
 import { loadGestioCatalog } from "@/modules/warehouse/application/load-catalog";
 import { buildStockOverview } from "@/modules/warehouse/application/queries/stock-overview";
+import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
 
 export async function GET() {
+  const auth = await requirePermission("purchasing:read");
+  if (isAuthError(auth)) return auth;
+
   try {
     const client = createGestioClient();
     await client.authenticate();
@@ -35,6 +39,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const auth = await requirePermission("purchasing:write");
+  if (isAuthError(auth)) return auth;
+
   try {
     const body = (await request.json()) as {
       descricao: string;
@@ -55,6 +62,7 @@ export async function POST(request: Request) {
       codigoDoProjeto: body.codigoDoProjeto ?? null,
       status: "pending",
       items: body.items,
+      createdBy: auth.id,
     });
 
     return NextResponse.json({ data: req }, { status: 201 });
