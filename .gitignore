@@ -41,6 +41,8 @@ yarn-error.log*
 # local persistence store
 /data/steelmind/store.json
 /data/steelmind/users.json
+/data/steelmind/quotes.json
+/data/steelmind/opportunities.json
 
 # typescript
 *.tsbuildinfo

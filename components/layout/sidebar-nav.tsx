@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -22,6 +23,8 @@ import {
   type NavIcon,
 } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { canAccessNavHref } from "@/lib/auth/nav-access";
+import type { UserRole } from "@/types/auth";
 import {
   Tooltip,
   TooltipContent,
@@ -115,9 +118,22 @@ interface SidebarNavProps {
 }
 
 export function SidebarNav({ collapsed, onNavigate }: SidebarNavProps) {
+  const [role, setRole] = useState<UserRole | null>(null);
+
+  useEffect(() => {
+    void fetch("/api/auth/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json) => json && setRole(json.data.role));
+  }, []);
+
   return (
     <div className="flex flex-col gap-6">
-      {NAV_GROUPS.map((group) => (
+      {NAV_GROUPS.map((group) => {
+        const items = group.items.filter(
+          (item) => !role || canAccessNavHref(role, item.href),
+        );
+        if (!items.length) return null;
+        return (
         <div key={group.label} className="space-y-1">
           {!collapsed && (
             <p className="mb-2 px-2.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/70">
@@ -125,7 +141,7 @@ export function SidebarNav({ collapsed, onNavigate }: SidebarNavProps) {
             </p>
           )}
           <nav className="flex flex-col gap-0.5 px-2">
-            {group.items.map((item) => (
+            {items.map((item) => (
               <NavLink
                 key={item.href}
                 href={item.href}
@@ -137,7 +153,8 @@ export function SidebarNav({ collapsed, onNavigate }: SidebarNavProps) {
             ))}
           </nav>
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -146,9 +163,23 @@ export function SidebarNavFooter({
   collapsed,
   onNavigate,
 }: SidebarNavProps) {
+  const [role, setRole] = useState<UserRole | null>(null);
+
+  useEffect(() => {
+    void fetch("/api/auth/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json) => json && setRole(json.data.role));
+  }, []);
+
+  const footerItems = NAV_FOOTER_ITEMS.filter(
+    (item) => !role || canAccessNavHref(role, item.href),
+  );
+
+  if (!footerItems.length) return null;
+
   return (
     <nav className="flex flex-col gap-0.5 px-2">
-      {NAV_FOOTER_ITEMS.map((item) => (
+      {footerItems.map((item) => (
         <NavLink
           key={item.href}
           href={item.href}

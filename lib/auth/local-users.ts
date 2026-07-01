@@ -36,6 +36,18 @@ const SEED_USERS: Array<{
     name: "Engenheiro Projetos",
     role: "engineering",
   },
+  {
+    email: "gerente@inglesametais.com",
+    password: "gerente123",
+    name: "Gerente Operacional",
+    role: "manager",
+  },
+  {
+    email: "viewer@inglesametais.com",
+    password: "viewer123",
+    name: "Visualizador",
+    role: "viewer",
+  },
 ];
 
 function getSeedUsers() {
@@ -70,7 +82,23 @@ function ensureUsersFile(): LocalUserRecord[] {
     return users;
   }
 
-  return JSON.parse(readFileSync(USERS_PATH, "utf-8")) as LocalUserRecord[];
+  const existing = JSON.parse(readFileSync(USERS_PATH, "utf-8")) as LocalUserRecord[];
+  let changed = false;
+  for (const seed of getSeedUsers()) {
+    if (!existing.some((u) => u.email.toLowerCase() === seed.email.toLowerCase())) {
+      existing.push({
+        id: crypto.randomUUID(),
+        email: seed.email.toLowerCase(),
+        name: seed.name,
+        role: seed.role,
+        tenantId: DEFAULT_TENANT_ID,
+        passwordHash: bcrypt.hashSync(seed.password, 10),
+      });
+      changed = true;
+    }
+  }
+  if (changed) writeFileSync(USERS_PATH, JSON.stringify(existing, null, 2));
+  return existing;
 }
 
 export function getLocalUsers(): LocalUserRecord[] {
