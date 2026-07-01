@@ -38,6 +38,11 @@ yarn-error.log*
 # local backups
 /backups/
 
+# nested repositories kept outside parent history
+/steelmind-almoxarifado/
+/steelmind-next/
+/steelmaster-catalog-generator/
+
 # local persistence store
 /data/steelmind/store.json
 /data/steelmind/users.json
