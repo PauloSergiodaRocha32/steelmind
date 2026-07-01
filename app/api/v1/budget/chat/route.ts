@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { requireAuth, isAuthError } from "@/lib/auth/api-guard";
+import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
 import { adjustQuoteWithChat, confirmQuote } from "@/lib/budget/ai-engine";
 import { getQuote, saveQuote } from "@/lib/persistence/quotes-store";
 
 export async function POST(request: Request) {
-  const auth = await requireAuth();
+  const auth = await requirePermission("budget:write");
   if (isAuthError(auth)) return auth;
 
   try {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       action?: "confirm";
     };
 
-    const quote = getQuote(body.quoteId);
+    const quote = await getQuote(body.quoteId);
     if (!quote) {
       return NextResponse.json(
         { error: { message: "Orçamento não encontrado" } },
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
     if (body.action === "confirm") {
       const confirmed = confirmQuote(quote);
-      saveQuote(confirmed);
+      await saveQuote(confirmed);
       return NextResponse.json({ data: confirmed });
     }
 
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
       quote,
       body.message,
     );
-    saveQuote(updated);
+    await saveQuote(updated);
 
     return NextResponse.json({ data: { quote: updated, reply, changes } });
   } catch (error) {

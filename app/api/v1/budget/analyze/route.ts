@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { requireAuth, isAuthError } from "@/lib/auth/api-guard";
+import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
 import { analyzeQuote } from "@/lib/budget/ai-engine";
 import { saveQuote } from "@/lib/persistence/quotes-store";
 import type { UploadedFileMeta } from "@/types/budget";
 
 export async function POST(request: Request) {
-  const auth = await requireAuth();
+  const auth = await requirePermission("budget:write");
   if (isAuthError(auth)) return auth;
 
   try {
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       { observacoes, arquivos, titulo },
       auth.id,
     );
-    saveQuote(quote);
+    await saveQuote(quote);
 
     return NextResponse.json({ data: quote }, { status: 201 });
   } catch (error) {

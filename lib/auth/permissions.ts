@@ -8,6 +8,10 @@ export type Permission =
   | "purchasing:write"
   | "engineering:read"
   | "engineering:write"
+  | "commercial:read"
+  | "commercial:write"
+  | "budget:read"
+  | "budget:write"
   | "platform:admin"
   | "gestio:sync";
 
@@ -20,6 +24,10 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     "purchasing:write",
     "engineering:read",
     "engineering:write",
+    "commercial:read",
+    "commercial:write",
+    "budget:read",
+    "budget:write",
     "platform:admin",
     "gestio:sync",
   ],
@@ -31,12 +39,22 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     "purchasing:write",
     "engineering:read",
     "engineering:write",
+    "commercial:read",
+    "commercial:write",
+    "budget:read",
+    "budget:write",
     "gestio:sync",
   ],
   warehouse: ["warehouse:read", "warehouse:write", "warehouse:move"],
   purchasing: ["warehouse:read", "purchasing:read", "purchasing:write"],
   engineering: ["warehouse:read", "engineering:read", "engineering:write"],
-  viewer: ["warehouse:read", "purchasing:read", "engineering:read"],
+  viewer: [
+    "warehouse:read",
+    "purchasing:read",
+    "engineering:read",
+    "commercial:read",
+    "budget:read",
+  ],
 };
 
 export function hasPermission(role: UserRole, permission: Permission): boolean {
@@ -57,6 +75,12 @@ export function canAccessRoute(role: UserRole, pathname: string): boolean {
   }
   if (pathname.startsWith("/engineering")) {
     return hasPermission(role, "engineering:read");
+  }
+  if (pathname.startsWith("/budget")) {
+    return hasPermission(role, "budget:read");
+  }
+  if (pathname.startsWith("/opportunities")) {
+    return hasPermission(role, "commercial:read");
   }
   return true;
 }

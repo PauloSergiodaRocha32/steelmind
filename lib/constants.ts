@@ -7,10 +7,10 @@ export const NAV_GROUPS = [
     label: "Workspace",
     items: [
       { title: "Dashboard", href: "/", icon: "LayoutDashboard" as const },
-      { title: "Opportunities", href: "/opportunities", icon: "Target" as const },
+      { title: "Oportunidades", href: "/opportunities", icon: "Target" as const },
       { title: "Engenharia", href: "/engineering", icon: "Wrench" as const },
       { title: "Orçamentos", href: "/budget", icon: "PieChart" as const },
-      { title: "Production", href: "/production", icon: "Factory" as const },
+      { title: "Produção", href: "/production", icon: "Factory" as const },
       { title: "Almoxarifado", href: "/warehouse", icon: "Warehouse" as const },
       { title: "Compras", href: "/purchasing", icon: "ShoppingCart" as const },
     ],
@@ -18,8 +18,8 @@ export const NAV_GROUPS = [
   {
     label: "Tools",
     items: [
-      { title: "Knowledge", href: "/knowledge", icon: "BookOpen" as const },
-      { title: "AI", href: "/ai", icon: "Sparkles" as const },
+      { title: "Conhecimento", href: "/knowledge", icon: "BookOpen" as const },
+      { title: "IA", href: "/ai", icon: "Sparkles" as const },
     ],
   },
 ] as const;
