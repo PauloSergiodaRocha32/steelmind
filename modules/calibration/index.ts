@@ -11,7 +11,11 @@ export type {
   BenchmarkComparisonResult,
 } from "@/modules/calibration/repository/benchmark.repository";
 export { FileCalibrationCaseRepository } from "@/modules/calibration/infrastructure/file-calibration-case.repository";
+export { SupabaseCalibrationCaseRepository } from "@/modules/calibration/infrastructure/supabase-calibration-case.repository";
+export { getDefaultCalibrationCaseRepository } from "@/modules/calibration/infrastructure/default-calibration-case.repository";
 export { InMemoryBenchmarkRepository } from "@/modules/calibration/infrastructure/in-memory-benchmark.repository";
+export { SupabaseBenchmarkRepository } from "@/modules/calibration/infrastructure/supabase-benchmark.repository";
+export { getDefaultBenchmarkRepository } from "@/modules/calibration/infrastructure/default-benchmark.repository";
 export {
   calculateAccuracyMetrics,
   type AccuracyMetrics,

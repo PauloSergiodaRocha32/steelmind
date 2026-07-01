@@ -2,12 +2,11 @@ import { getFeatureFlags } from "@/lib/config/feature-flags";
 import { generateGuardrailQuoteV2 } from "@/domains/quoting/services/guardrail-quote-engine-v2";
 import type { BudgetBreakdown } from "@/modules/shadow";
 import {
-  FileShadowRunRepository,
+  getDefaultShadowRunRepository,
   analyzeDifferences,
   recordShadowRun,
 } from "@/modules/shadow";
 import type { UploadedFileMeta } from "@/types/budget";
-import { resolve } from "node:path";
 
 interface RunQuoteEngineV2ShadowInput {
   title: string;
@@ -86,9 +85,7 @@ export async function runQuoteEngineV2Shadow(
     warningCount: v2.warnings.length,
   };
 
-  const repository = new FileShadowRunRepository(
-    resolve(process.cwd(), "data/steelmind/shadow/shadow-runs.json"),
-  );
+  const repository = getDefaultShadowRunRepository();
 
   await recordShadowRun(repository, {
     engineVersion: "quote-engine-v2-shadow",

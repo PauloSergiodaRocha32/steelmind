@@ -17,3 +17,6 @@ export {
 export type { ShadowRunRepository } from "@/modules/shadow/repository/shadow-run.repository";
 export { FileShadowRunRepository } from "@/modules/shadow/infrastructure/file-shadow-run.repository";
 export { MemoryShadowRunRepository } from "@/modules/shadow/infrastructure/memory-shadow-run.repository";
+export { SupabaseShadowRunRepository } from "@/modules/shadow/infrastructure/supabase-shadow-run.repository";
+export { CompositeShadowRunRepository } from "@/modules/shadow/infrastructure/composite-shadow-run.repository";
+export { getDefaultShadowRunRepository } from "@/modules/shadow/infrastructure/default-shadow-run.repository";

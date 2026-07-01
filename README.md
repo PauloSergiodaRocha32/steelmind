@@ -20,6 +20,14 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Quality Gates
+
+```bash
+npm run quality:gate
+```
+
+Runs lint + unit tests with coverage + production build.
+
 ## Documentation
 
 | Document | Description |

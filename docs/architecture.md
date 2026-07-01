@@ -38,6 +38,8 @@ modules/shadow/
   infrastructure/
     file-shadow-run.repository.ts
     memory-shadow-run.repository.ts
+    supabase-shadow-run.repository.ts
+    default-shadow-run.repository.ts
 ```
 
 ### Comparison categories
@@ -79,6 +81,10 @@ modules/calibration/
   infrastructure/
     file-calibration-case.repository.ts
     in-memory-benchmark.repository.ts
+    supabase-calibration-case.repository.ts
+    supabase-benchmark.repository.ts
+    default-calibration-case.repository.ts
+    default-benchmark.repository.ts
   application/
     services/accuracy-metrics.ts
     dto/dashboard-dtos.ts
@@ -95,7 +101,8 @@ modules/calibration/
 
 Current implementation:
 
-- in-memory benchmark repository for deterministic unit tests and foundation validation
+- in-memory benchmark repository for deterministic tests
+- supabase benchmark repository for persistent runs when configured
 
 ## 5. Accuracy Metrics Contracts
 
@@ -128,3 +135,15 @@ This addendum follows:
 - `CONSTITUTION.md`
 - ADR-008 (strangler shadow migration)
 - ADR-009 (shadow calibration infrastructure)
+- ADR-010 (persistent repositories + CI quality gates)
+
+## 8. Quality Gates (CI)
+
+Automated gate pipeline validates:
+
+- lint
+- unit tests
+- coverage generation
+- production build
+
+This enforces non-regression for infrastructure evolution while preserving official runtime behavior.

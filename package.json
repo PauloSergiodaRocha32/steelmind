@@ -15,7 +15,8 @@
     "demo:browser": "tsx scripts/browser-walkthrough.ts",
     "demo:project": "tsx scripts/demo-project-cli.ts",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "quality:gate": "npm run lint && npm run test:coverage && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
