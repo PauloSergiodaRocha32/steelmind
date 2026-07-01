@@ -1,3 +1,4 @@
+import { SteelAICopilot } from "@/components/ai/steel-ai-copilot";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 
@@ -32,6 +33,8 @@ export function AppShell({ children, title = "Dashboard" }: AppShellProps) {
           </div>
         </main>
       </div>
+
+      <SteelAICopilot />
     </div>
   );
 }

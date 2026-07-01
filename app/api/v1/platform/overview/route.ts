@@ -1,13 +1,23 @@
 import { NextResponse } from "next/server";
+import { requireAuth, isAuthError } from "@/lib/auth/api-guard";
 import { createGestioClient } from "@/services/gestio/client";
 import { getStore, isSupabaseConfigured } from "@/lib/persistence/store";
 import { loadGestioCatalog } from "@/modules/warehouse/application/load-catalog";
 import { buildStockOverview } from "@/modules/warehouse/application/queries/stock-overview";
+import { listOpportunities } from "@/lib/persistence/commercial-store";
+import { listQuotes } from "@/lib/persistence/quotes-store";
 
 export async function GET() {
+  const auth = await requireAuth();
+  if (isAuthError(auth)) return auth;
+
   try {
     const catalog = loadGestioCatalog();
     const store = await getStore();
+    const [opportunities, quotes] = await Promise.all([
+      listOpportunities(),
+      listQuotes(),
+    ]);
 
     let gestioStats = null;
     let projetos = 0;
@@ -24,9 +34,7 @@ export async function GET() {
       ]);
       projetos = projetosList.filter((p) => p.ativo).length;
       movimentos = { entradas: entradas.length, saidas: saidas.length };
-      gestioStats = {
-        requisicoesAbertas: abertas.length,
-      };
+      gestioStats = { requisicoesAbertas: abertas.length };
     } catch {
       /* Gestio optional for overview */
     }
@@ -41,10 +49,7 @@ export async function GET() {
         },
         warehouse: catalog?.stats ?? null,
         stock: stock
-          ? {
-              comSaldo: stock.comSaldo.length,
-              alertas: stock.alertas.length,
-            }
+          ? { comSaldo: stock.comSaldo.length, alertas: stock.alertas.length }
           : null,
         engineering: {
           projetosGestio: projetos,
@@ -54,11 +59,23 @@ export async function GET() {
           requisicoesLocais: store.purchaseRequisitions.length,
           gestioAbertas: gestioStats?.requisicoesAbertas ?? 0,
         },
+        commercial: {
+          opportunities: opportunities.length,
+          pipelineValue: opportunities.reduce((a, o) => a + o.valorEstimado, 0),
+        },
+        budget: {
+          quotes: quotes.length,
+          confirmed: quotes.filter((q) => q.status === "confirmed").length,
+        },
         movements: movimentos,
         modules: [
+          { name: "Oportunidades", href: "/opportunities", status: "online" },
+          { name: "Orçamentos", href: "/budget", status: "online" },
           { name: "Almoxarifado", href: "/warehouse", status: catalog ? "online" : "sync-required" },
           { name: "Compras", href: "/purchasing", status: "online" },
           { name: "Engenharia", href: "/engineering", status: "online" },
+          { name: "Produção", href: "/production", status: "online" },
+          { name: "IA", href: "/ai", status: "online" },
         ],
       },
     });

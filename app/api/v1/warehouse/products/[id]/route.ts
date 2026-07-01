@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requirePermission, isAuthError } from "@/lib/auth/api-guard";
 import { loadGestioCatalog } from "@/modules/warehouse/application/load-catalog";
 import { getProductDetail } from "@/modules/warehouse/application/queries/get-product-detail";
 
@@ -7,6 +8,9 @@ interface RouteParams {
 }
 
 export async function GET(_request: Request, { params }: RouteParams) {
+  const auth = await requirePermission("warehouse:read");
+  if (isAuthError(auth)) return auth;
+
   const { id } = await params;
   const idProd = Number(id);
 
