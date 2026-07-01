@@ -11,6 +11,7 @@ import {
   ShoppingCart,
   Sparkles,
   Target,
+  Warehouse,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
@@ -34,6 +35,7 @@ const iconMap: Record<NavIcon, LucideIcon> = {
   PieChart,
   Factory,
   ShoppingCart,
+  Warehouse,
   BookOpen,
   Sparkles,
   Settings,

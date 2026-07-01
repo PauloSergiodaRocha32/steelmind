@@ -2,11 +2,11 @@
 
 import { Bell } from "lucide-react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CommandMenuTrigger } from "@/components/layout/command-menu-trigger";
 import { MobileSidebar } from "@/components/layout/mobile-sidebar";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { UserMenu } from "@/modules/platform/components/user-menu";
 import { Separator } from "@/components/ui/separator";
 
 interface HeaderProps {
@@ -42,11 +42,7 @@ export function Header({ title = "Dashboard" }: HeaderProps) {
         </Button>
         <ThemeToggle />
         <Separator orientation="vertical" className="mx-1 h-5" />
-        <Avatar className="h-8 w-8 ring-1 ring-border/60 transition-shadow hover:ring-border">
-          <AvatarFallback className="bg-primary/10 text-[11px] font-semibold text-primary">
-            SM
-          </AvatarFallback>
-        </Avatar>
+        <UserMenu />
       </div>
     </header>
   );

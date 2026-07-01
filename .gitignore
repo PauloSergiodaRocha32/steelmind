@@ -32,6 +32,16 @@ yarn-error.log*
 .env*
 !.env.example
 
+# gestio sync output (large catalog snapshot)
+/data/gestio/catalog.json
+
+# local backups
+/backups/
+
+# local persistence store
+/data/steelmind/store.json
+/data/steelmind/users.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
