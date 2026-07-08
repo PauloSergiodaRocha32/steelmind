@@ -43,21 +43,15 @@ async function main() {
   try {
     // Login
     console.log("→ Login…");
-    await page.goto(`${BASE}/login`, { waitUntil: "networkidle" });
-    const emailInput = page.getByPlaceholder("E-mail");
-    const isLoginVisible = await emailInput
-      .isVisible({ timeout: 4000 })
-      .catch(() => false);
-
-    if (isLoginVisible) {
-      await emailInput.fill(EMAIL);
-      await page.getByPlaceholder("Senha").fill(PASSWORD);
-      await page.getByRole("button", { name: /Entrar/i }).click();
-      await page.waitForURL((url) => !url.pathname.includes("/login"), { timeout: 15000 });
-      console.log("  ✓ Autenticado\n");
-    } else {
-      console.log("  ✓ Sessão já autenticada\n");
+    const loginResponse = await context.request.post(`${BASE}/api/auth/login`, {
+      data: { email: EMAIL, password: PASSWORD },
+    });
+    if (!loginResponse.ok()) {
+      const body = await loginResponse.text();
+      throw new Error(`Falha no login API (${loginResponse.status()}): ${body}`);
     }
+    console.log("  ✓ Autenticado\n");
+    await page.goto(`${BASE}/`, { waitUntil: "networkidle" });
 
     // Execute demo project
     console.log("→ Executando projeto demo em /projeto…");
