@@ -9,7 +9,7 @@ export const NAV_GROUPS = [
       { title: "Dashboard", href: "/", icon: "LayoutDashboard" as const },
       { title: "Opportunities", href: "/opportunities", icon: "Target" as const },
       { title: "Engenharia", href: "/engineering", icon: "Wrench" as const },
-      { title: "Budget", href: "/budget", icon: "PieChart" as const },
+      { title: "Orçamentos", href: "/budget", icon: "PieChart" as const },
       { title: "Production", href: "/production", icon: "Factory" as const },
       { title: "Almoxarifado", href: "/warehouse", icon: "Warehouse" as const },
       { title: "Compras", href: "/purchasing", icon: "ShoppingCart" as const },
